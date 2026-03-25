@@ -1,5 +1,6 @@
 ﻿namespace Repuesto1
 {
+
     partial class Form1
     {
         /// <summary>
@@ -50,7 +51,7 @@
             toolStrip1 = new ToolStrip();
             toolStripButton2 = new ToolStripButton();
             toolStripButton3 = new ToolStripButton();
-            toolStripButton4 = new ToolStripButton();
+            Producto = new ToolStripButton();
             toolStripButton5 = new ToolStripButton();
             toolStripButton6 = new ToolStripButton();
             toolStripButton1 = new ToolStripButton();
@@ -190,7 +191,7 @@
             toolStrip1.Font = new Font("Segoe UI", 7F);
             toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
             toolStrip1.ImageScalingSize = new Size(30, 30);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton2, toolStripButton3, toolStripButton4, toolStripButton5, toolStripButton6, toolStripButton1 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton2, toolStripButton3, Producto, toolStripButton5, toolStripButton6, toolStripButton1 });
             toolStrip1.Location = new Point(0, 24);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Padding = new Padding(0);
@@ -218,14 +219,15 @@
             toolStripButton3.Text = "Compras";
             toolStripButton3.TextImageRelation = TextImageRelation.ImageAboveText;
             // 
-            // toolStripButton4
+            // Producto
             // 
-            toolStripButton4.Image = (Image)resources.GetObject("toolStripButton4.Image");
-            toolStripButton4.ImageTransparentColor = Color.Magenta;
-            toolStripButton4.Name = "toolStripButton4";
-            toolStripButton4.Size = new Size(54, 46);
-            toolStripButton4.Text = "Productos";
-            toolStripButton4.TextImageRelation = TextImageRelation.ImageAboveText;
+            Producto.Image = (Image)resources.GetObject("Producto.Image");
+            Producto.ImageTransparentColor = Color.Magenta;
+            Producto.Name = "Producto";
+            Producto.Size = new Size(54, 46);
+            Producto.Text = "Productos";
+            Producto.TextImageRelation = TextImageRelation.ImageAboveText;
+            Producto.Click += Producto_Click;
             // 
             // toolStripButton5
             // 
@@ -235,6 +237,7 @@
             toolStripButton5.Size = new Size(63, 46);
             toolStripButton5.Text = "Proveedores";
             toolStripButton5.TextImageRelation = TextImageRelation.ImageAboveText;
+            toolStripButton5.Click += toolStripButton5_Click;
             // 
             // toolStripButton6
             // 
@@ -348,11 +351,12 @@
         private ToolStripButton toolStripButton1;
         private ToolStripButton toolStripButton2;
         private ToolStripButton toolStripButton3;
-        private ToolStripButton toolStripButton4;
+        private ToolStripButton Producto;
         private ToolStripButton toolStripButton5;
         private ToolStripButton toolStripButton6;
         private LinkLabel linkLabel1;
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel3;
+
     }
 }
