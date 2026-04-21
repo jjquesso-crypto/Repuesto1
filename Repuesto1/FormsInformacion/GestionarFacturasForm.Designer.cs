@@ -8,19 +8,45 @@
 
         private void InitializeComponent()
         {
-            dgvFacturas = new DataGridView() { Location = new System.Drawing.Point(12, 12), Size = new System.Drawing.Size(760, 400) };
-            btnAgregar = new Button() { Text = "Vender", Location = new System.Drawing.Point(12, 420), Size = new System.Drawing.Size(100, 35) };
-            lblInfo = new Label() { Location = new System.Drawing.Point(12, 470), Size = new System.Drawing.Size(400, 25) };
-
+            dgvFacturas = new DataGridView();
+            btnAgregar = new Button();
+            lblInfo = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvFacturas).BeginInit();
+            SuspendLayout();
+            // 
+            // dgvFacturas
+            // 
+            dgvFacturas.Location = new Point(0, 55);
+            dgvFacturas.Name = "dgvFacturas";
+            dgvFacturas.Size = new Size(783, 394);
+            dgvFacturas.TabIndex = 0;
+            // 
+            // btnAgregar
+            // 
+            btnAgregar.Location = new Point(0, 26);
+            btnAgregar.Name = "btnAgregar";
+            btnAgregar.Size = new Size(75, 23);
+            btnAgregar.TabIndex = 1;
+            // 
+            // lblInfo
+            // 
+            lblInfo.Location = new Point(0, 0);
+            lblInfo.Name = "lblInfo";
+            lblInfo.Size = new Size(100, 23);
+            lblInfo.TabIndex = 2;
+            // 
+            // GestionarFacturasForm
+            // 
+            ClientSize = new Size(784, 481);
             Controls.Add(dgvFacturas);
             Controls.Add(btnAgregar);
             Controls.Add(lblInfo);
-
-            Size = new System.Drawing.Size(800, 520);
-            Text = "Facturas";
+            Name = "GestionarFacturasForm";
             StartPosition = FormStartPosition.CenterScreen;
+            Text = "Facturas";
+            ((System.ComponentModel.ISupportInitialize)dgvFacturas).EndInit();
+            ResumeLayout(false);
 
-            btnAgregar.Click += btnAgregar_Click;
         }
     }
 }
