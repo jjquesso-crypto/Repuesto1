@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Repuesto1.Model/Repuesto1.Data.csproj" Id="2743a21c-08d0-4f7c-afb2-1d71634809c1" />
+  <Project Path="Repuesto1.WebApi/Repuesto1.WebApi.csproj" Id="0575d2b4-8753-42fb-999e-b1cda4fc113b" />
   <Project Path="Repuesto1/Repuesto1.csproj" />
 </Solution>
