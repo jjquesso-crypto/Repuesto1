@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="Repuesto1.Model/Repuesto1.Model.csproj" Id="2743a21c-08d0-4f7c-afb2-1d71634809c1" />
+  <Project Path="Repuesto1.Model/Repuesto1.Data.csproj" Id="2743a21c-08d0-4f7c-afb2-1d71634809c1" />
   <Project Path="Repuesto1/Repuesto1.csproj" />
 </Solution>
