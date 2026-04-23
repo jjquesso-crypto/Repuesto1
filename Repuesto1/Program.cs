@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Repuesto1.Model;
+using Repuesto1.Data;
 using System.IO;
 
 namespace Repuesto1

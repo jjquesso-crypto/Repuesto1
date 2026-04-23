@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Repuesto1.Model
+namespace Repuesto1.Data
 {
     [Table("tblProductos")]
     public class Producto

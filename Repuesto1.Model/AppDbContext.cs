@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace Repuesto1.Model
+namespace Repuesto1.Data
 {
     public class AppDbContext : DbContext
     {

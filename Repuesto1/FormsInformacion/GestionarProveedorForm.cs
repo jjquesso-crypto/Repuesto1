@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using Repuesto1.Model;
+using Repuesto1.Data;
 
 namespace Repuesto1
 {
