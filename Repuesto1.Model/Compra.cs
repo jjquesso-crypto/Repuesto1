@@ -1,37 +1,37 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace Repuesto1.Data
+namespace Repuesto1.Data;
+
+[Table("tblCompras")]
+public class Compra
 {
-    [Table("tblCompras")]
-    public class Compra
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string NumeroFactura { get; set; } = string.Empty;
+    [Required]
+    [StringLength(50)]
+    public string NumeroFactura { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime Fecha { get; set; } = DateTime.Now;
+    [Required]
+    public DateTime Fecha { get; set; } = DateTime.Now;
 
-        [Required]
-        public int IdProveedor { get; set; }
+    [Required]
+    public int IdProveedor { get; set; }
 
-        [Required]
-        public decimal SubTotal { get; set; }
+    [Required]
+    public decimal SubTotal { get; set; }
 
-        public decimal Iva { get; set; } = 0;
+    public decimal Iva { get; set; } = 0;
 
-        [Required]
-        public decimal Total { get; set; }
+    [Required]
+    public decimal Total { get; set; }
 
-        [StringLength(20)]
-        public string Estado { get; set; } = "PENDIENTE";
+    [StringLength(20)]
+    public string Estado { get; set; } = "PENDIENTE";
 
-        [ForeignKey("IdProveedor")]
-        public virtual Proveedor? Proveedor { get; set; }
-    }
+    [ForeignKey("IdProveedor")]
+    public virtual Proveedor? Proveedor { get; set; }
 }

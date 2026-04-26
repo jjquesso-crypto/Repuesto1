@@ -17,4 +17,8 @@
     <EmbeddedResource Remove="Form1.resx" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Aplicada1.Core" Version="1.0.0" />
+  </ItemGroup>
+
 </Project>

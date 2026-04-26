@@ -31,21 +31,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             menuStrip1 = new MenuStrip();
-            archivoToolStripMenuItem = new ToolStripMenuItem();
-            nCFToolStripMenuItem = new ToolStripMenuItem();
             cajaToolStripMenuItem = new ToolStripMenuItem();
             ventasToolStripMenuItem = new ToolStripMenuItem();
             inventarioToolStripMenuItem = new ToolStripMenuItem();
-            cporCToolStripMenuItem = new ToolStripMenuItem();
-            cporCToolStripMenuItem1 = new ToolStripMenuItem();
-            bancoToolStripMenuItem = new ToolStripMenuItem();
             nominaToolStripMenuItem = new ToolStripMenuItem();
             configuracionToolStripMenuItem = new ToolStripMenuItem();
-            herramientasToolStripMenuItem = new ToolStripMenuItem();
             mantenimientoToolStripMenuItem = new ToolStripMenuItem();
-            dGIIToolStripMenuItem = new ToolStripMenuItem();
             ayudaToolStripMenuItem = new ToolStripMenuItem();
-            efrenisnetToolStripMenuItem = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
             progressBar1 = new ProgressBar();
             toolStrip1 = new ToolStrip();
@@ -66,26 +58,13 @@
             // menuStrip1
             // 
             menuStrip1.Font = new Font("Bell MT", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem, nCFToolStripMenuItem, cajaToolStripMenuItem, ventasToolStripMenuItem, inventarioToolStripMenuItem, cporCToolStripMenuItem, cporCToolStripMenuItem1, bancoToolStripMenuItem, nominaToolStripMenuItem, configuracionToolStripMenuItem, herramientasToolStripMenuItem, mantenimientoToolStripMenuItem, dGIIToolStripMenuItem, ayudaToolStripMenuItem, efrenisnetToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { cajaToolStripMenuItem, ventasToolStripMenuItem, inventarioToolStripMenuItem, nominaToolStripMenuItem, configuracionToolStripMenuItem, mantenimientoToolStripMenuItem, ayudaToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(0);
             menuStrip1.Size = new Size(911, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
-            // 
-            // archivoToolStripMenuItem
-            // 
-            archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            archivoToolStripMenuItem.Size = new Size(58, 24);
-            archivoToolStripMenuItem.Text = "Archivo";
-            // 
-            // nCFToolStripMenuItem
-            // 
-            nCFToolStripMenuItem.Font = new Font("Segoe UI", 8F);
-            nCFToolStripMenuItem.Name = "nCFToolStripMenuItem";
-            nCFToolStripMenuItem.Size = new Size(40, 24);
-            nCFToolStripMenuItem.Text = "NCF";
             // 
             // cajaToolStripMenuItem
             // 
@@ -105,24 +84,6 @@
             inventarioToolStripMenuItem.Size = new Size(69, 24);
             inventarioToolStripMenuItem.Text = "Inventario";
             // 
-            // cporCToolStripMenuItem
-            // 
-            cporCToolStripMenuItem.Name = "cporCToolStripMenuItem";
-            cporCToolStripMenuItem.Size = new Size(52, 24);
-            cporCToolStripMenuItem.Text = "CporC";
-            // 
-            // cporCToolStripMenuItem1
-            // 
-            cporCToolStripMenuItem1.Name = "cporCToolStripMenuItem1";
-            cporCToolStripMenuItem1.Size = new Size(52, 24);
-            cporCToolStripMenuItem1.Text = "CporC";
-            // 
-            // bancoToolStripMenuItem
-            // 
-            bancoToolStripMenuItem.Name = "bancoToolStripMenuItem";
-            bancoToolStripMenuItem.Size = new Size(48, 24);
-            bancoToolStripMenuItem.Text = "Banco";
-            // 
             // nominaToolStripMenuItem
             // 
             nominaToolStripMenuItem.Name = "nominaToolStripMenuItem";
@@ -135,23 +96,11 @@
             configuracionToolStripMenuItem.Size = new Size(88, 24);
             configuracionToolStripMenuItem.Text = "Configuracion";
             // 
-            // herramientasToolStripMenuItem
-            // 
-            herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
-            herramientasToolStripMenuItem.Size = new Size(85, 24);
-            herramientasToolStripMenuItem.Text = "Herramientas";
-            // 
             // mantenimientoToolStripMenuItem
             // 
             mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
             mantenimientoToolStripMenuItem.Size = new Size(97, 24);
             mantenimientoToolStripMenuItem.Text = "Mantenimientos";
-            // 
-            // dGIIToolStripMenuItem
-            // 
-            dGIIToolStripMenuItem.Name = "dGIIToolStripMenuItem";
-            dGIIToolStripMenuItem.Size = new Size(45, 24);
-            dGIIToolStripMenuItem.Text = "DGII";
             // 
             // ayudaToolStripMenuItem
             // 
@@ -159,19 +108,13 @@
             ayudaToolStripMenuItem.Size = new Size(50, 24);
             ayudaToolStripMenuItem.Text = "Ayuda";
             // 
-            // efrenisnetToolStripMenuItem
-            // 
-            efrenisnetToolStripMenuItem.Name = "efrenisnetToolStripMenuItem";
-            efrenisnetToolStripMenuItem.Size = new Size(69, 24);
-            efrenisnetToolStripMenuItem.Text = "efrenis.net";
-            // 
             // pictureBox1
             // 
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(0, 56);
+            pictureBox1.Location = new Point(0, 70);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(911, 443);
+            pictureBox1.Size = new Size(911, 429);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -333,21 +276,13 @@
         #endregion
 
         private MenuStrip menuStrip1;
-        private ToolStripMenuItem archivoToolStripMenuItem;
-        private ToolStripMenuItem nCFToolStripMenuItem;
         private ToolStripMenuItem cajaToolStripMenuItem;
         private ToolStripMenuItem ventasToolStripMenuItem;
         private ToolStripMenuItem inventarioToolStripMenuItem;
-        private ToolStripMenuItem cporCToolStripMenuItem;
-        private ToolStripMenuItem cporCToolStripMenuItem1;
-        private ToolStripMenuItem bancoToolStripMenuItem;
         private ToolStripMenuItem nominaToolStripMenuItem;
         private ToolStripMenuItem configuracionToolStripMenuItem;
-        private ToolStripMenuItem herramientasToolStripMenuItem;
         private ToolStripMenuItem mantenimientoToolStripMenuItem;
-        private ToolStripMenuItem dGIIToolStripMenuItem;
         private ToolStripMenuItem ayudaToolStripMenuItem;
-        private ToolStripMenuItem efrenisnetToolStripMenuItem;
         private PictureBox pictureBox1;
         private ProgressBar progressBar1;
         private ToolStrip toolStrip1;
