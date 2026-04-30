@@ -7,7 +7,9 @@ using System.Windows.Forms;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using Repuesto1.Model;
+using Repuesto1.Data;
+using Repuesto1.Data.Models;
+using Repuesto1.Data.Context;
 
 namespace Repuesto1
 {
@@ -21,9 +23,9 @@ namespace Repuesto1
 
         private void CargarProductos()
         {
-            using (var db = new AppDbContext())
+            using (var db = new RepuestoContext())
             {
-                var productos = db.Productos.Where(p => !p.Inactivo).ToList();
+                var productos = db.TblProductos.Where(p => p.Inactivo == false).ToList();
                 dgvProductos.DataSource = productos;
 
                 // Mostrar totales

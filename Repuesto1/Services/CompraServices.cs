@@ -4,12 +4,14 @@ using System.Linq.Expressions;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Aplicada1.Core;
+using Repuesto1.Data.Context;
+using Repuesto1.Data.Models;
 
-namespace Repuesto1.Data.Services;
+namespace Repuesto1 ;
 
-public class CompraServices() : IService<Compra, int>
+public class CompraServices() : IService<TblCompra, int>
 {
-    public Task<Compra?> Buscar(int id)
+    public Task<TblCompra?> Buscar(int id)
     {
         throw new NotImplementedException();
     }
@@ -19,12 +21,12 @@ public class CompraServices() : IService<Compra, int>
         throw new NotImplementedException();
     }
 
-    public Task<List<Compra>> GetList(Expression<Func<Compra, bool>> criterio)
+    public Task<List<TblCompra>> GetList(Expression<Func<TblCompra, bool>> criterio)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> Guardar(Compra entidad)
+    public Task<bool> Guardar(TblCompra entidad)
     {
         throw new NotImplementedException();
     }

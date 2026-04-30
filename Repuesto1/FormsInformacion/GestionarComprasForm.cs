@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Repuesto1.Model;
+using Repuesto1.Data;
+using Repuesto1.Data.Context;
+using Repuesto1.Data.Models;
 
 namespace Repuesto1
 {
@@ -18,9 +20,23 @@ namespace Repuesto1
 
         private void CargarCompras()
         {
-            using (var db = new AppDbContext())
+            using (var db = new RepuestoContext())
             {
-                var compras = db.Compras.OrderByDescending(c => c.Fecha).ToList();
+                var compras = db.TblCompras
+                    .OrderByDescending(c => c.Fecha)
+                    .Select(c => new
+                    {
+                        c.Id,
+                        c.NumeroFactura,
+                        c.Fecha,
+                        //Proveedor = c.Proveedore.Nombre, // ← une con la tabla Proveedores
+                        c.SubTotal,
+                        c.Iva,
+                        c.Total,
+                        c.Estado
+                    })
+                    .ToList();
+
                 dgvCompras.DataSource = compras;
                 lblInfo.Text = $"Total: {compras.Sum(c => c.Total):C2}";
             }
@@ -80,13 +96,13 @@ namespace Repuesto1
             frm.Controls.Add(btnGuardar);
 
             // Cargar proveedores y productos
-            using (var db = new AppDbContext())
+            using (var db = new RepuestoContext())
             {
-                cbProveedor.DataSource = db.Proveedores.Where(p => !p.Inactivo).ToList();
+                cbProveedor.DataSource = db.TblProveedores.Where(p => p.Inactivo == false).ToList();
                 cbProveedor.DisplayMember = "Nombre";
                 cbProveedor.ValueMember = "Id";
 
-                cbProducto.DataSource = db.Productos.Where(p => !p.Inactivo).ToList();
+                cbProducto.DataSource = db.TblProductos.Where(p => p.Inactivo == false).ToList();
                 cbProducto.DisplayMember = "Nombre";
                 cbProducto.ValueMember = "Id";
             }
@@ -143,13 +159,13 @@ namespace Repuesto1
                     return;
                 }
 
-                using (var db = new AppDbContext())
+                using (var db = new RepuestoContext())
                 {
                     decimal subtotal = detalles.Sum(d => d.SubTotal);
                     decimal iva = subtotal * 0.18m;
                     decimal total = subtotal + iva;
 
-                    var compra = new Compra()
+                    var compra = new TblCompra()
                     {
                         NumeroFactura = $"C-{DateTime.Now.Ticks}",
                         Fecha = DateTime.Now,
@@ -159,13 +175,13 @@ namespace Repuesto1
                         Total = total,
                         Estado = "PAGADA",
                     };
-                    db.Compras.Add(compra);
+                    db.TblCompras.Add(compra);
                     db.SaveChanges();
 
                     // Guardar cada detalle
                     foreach (var item in detalles)
                     {
-                        db.DetalleCompras.Add(new DetalleCompra()
+                        db.TblDetalleCompras.Add(new TblDetalleCompra()
                         {
                             IdCompra = compra.Id,
                             IdProducto = item.IdProducto,
@@ -175,7 +191,7 @@ namespace Repuesto1
                         });
 
                         // Actualizar stock
-                        var prod = db.Productos.Find(item.IdProducto);
+                        var prod = db.TblProductos.Find(item.IdProducto);
                         prod.Cantidad += item.Cantidad;
                     }
 

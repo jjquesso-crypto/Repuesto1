@@ -15,7 +15,7 @@ namespace Repuesto1.Data
         }
 
         public DbSet<Producto> Productos { get; set; }
-        public DbSet<Proveedor> Proveedores { get; set; }
+        //public DbSet<Proveedor> Proveedores { get; set; }
         public DbSet<Compra> Compras { get; set; }
         public DbSet<DetalleCompra> DetalleCompras { get; set; }
          public DbSet<Ingreso> Ingresos { get; set; }
