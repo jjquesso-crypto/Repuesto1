@@ -33,7 +33,6 @@
             menuStrip1 = new MenuStrip();
             cajaToolStripMenuItem = new ToolStripMenuItem();
             ventasToolStripMenuItem = new ToolStripMenuItem();
-            inventarioToolStripMenuItem = new ToolStripMenuItem();
             nominaToolStripMenuItem = new ToolStripMenuItem();
             configuracionToolStripMenuItem = new ToolStripMenuItem();
             mantenimientoToolStripMenuItem = new ToolStripMenuItem();
@@ -58,7 +57,7 @@
             // menuStrip1
             // 
             menuStrip1.Font = new Font("Bell MT", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { cajaToolStripMenuItem, ventasToolStripMenuItem, inventarioToolStripMenuItem, nominaToolStripMenuItem, configuracionToolStripMenuItem, mantenimientoToolStripMenuItem, ayudaToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { cajaToolStripMenuItem, ventasToolStripMenuItem, nominaToolStripMenuItem, configuracionToolStripMenuItem, mantenimientoToolStripMenuItem, ayudaToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(0);
@@ -77,12 +76,6 @@
             ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
             ventasToolStripMenuItem.Size = new Size(52, 24);
             ventasToolStripMenuItem.Text = "Ventas";
-            // 
-            // inventarioToolStripMenuItem
-            // 
-            inventarioToolStripMenuItem.Name = "inventarioToolStripMenuItem";
-            inventarioToolStripMenuItem.Size = new Size(69, 24);
-            inventarioToolStripMenuItem.Text = "Inventario";
             // 
             // nominaToolStripMenuItem
             // 
@@ -278,7 +271,6 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem cajaToolStripMenuItem;
         private ToolStripMenuItem ventasToolStripMenuItem;
-        private ToolStripMenuItem inventarioToolStripMenuItem;
         private ToolStripMenuItem nominaToolStripMenuItem;
         private ToolStripMenuItem configuracionToolStripMenuItem;
         private ToolStripMenuItem mantenimientoToolStripMenuItem;

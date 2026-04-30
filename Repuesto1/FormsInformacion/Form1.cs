@@ -1,4 +1,6 @@
-using Repuesto1.Model;
+using Repuesto1.Data;
+using Repuesto1.Data.Context;
+using Repuesto1.Data.Models;
 namespace Repuesto1
 {
     public partial class Form1 : Form
@@ -8,7 +10,7 @@ namespace Repuesto1
             try
             {
                 // Crear nueva instancia para verificar (NO usar Program.DbContext con using)
-                using (var db = new AppDbContext())
+                using (var db = new RepuestoContext())
                 {
                     db.Database.EnsureCreated();
                     MessageBox.Show("✅ Base de datos lista", "Éxito");
