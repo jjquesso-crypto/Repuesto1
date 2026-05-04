@@ -30,6 +30,10 @@ public partial class RepuestoContext : DbContext
 
     public virtual DbSet<TblUsuario> TblUsuarios { get; set; }
 
+    public virtual DbSet<TblVentas> TblVentas { get; set; }
+
+    public virtual DbSet<TblDetalleVentas> TblDetalleVentas { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=DESKTOP-VTIDNVJ\\SQLEXPRESS;Database=Repuesto;User Id=sa;Password=123456;TrustServerCertificate=True;");
@@ -60,6 +64,28 @@ public partial class RepuestoContext : DbContext
             entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.TblDetalleCompras)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__tblDetall__IdPro__66603565");
+        });
+
+        modelBuilder.Entity<TblVentas>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_tblVentas");
+
+            entity.Property(e => e.Fecha).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.Estado).HasDefaultValue("PAGADA");
+            entity.Property(e => e.Itebis).HasDefaultValue(0m);
+        });
+
+        modelBuilder.Entity<TblDetalleVentas>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_tblDetalleVentas");
+
+            entity.HasOne(d => d.IdProductoNavigation)
+                .WithMany(p => p.TblDetalleVentas)
+                .HasForeignKey(d => d.IdProducto);
+
+            entity.HasOne(d => d.IdVentaNavigation)
+                .WithMany(p => p.TblDetalleVentas)
+                .HasForeignKey(d => d.IdVenta);
         });
 
         modelBuilder.Entity<TblFactura>(entity =>

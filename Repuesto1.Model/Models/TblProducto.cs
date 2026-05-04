@@ -25,4 +25,7 @@ public partial class TblProducto
 
     [InverseProperty("IdProductoNavigation")]
     public virtual ICollection<TblDetalleCompra> TblDetalleCompras { get; set; } = new List<TblDetalleCompra>();
+
+    [InverseProperty("IdProductoNavigation")]
+    public virtual ICollection<TblDetalleVentas> TblDetalleVentas { get; set; } = new List<TblDetalleVentas>();
 }

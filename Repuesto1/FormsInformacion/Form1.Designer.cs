@@ -34,9 +34,7 @@
             cajaToolStripMenuItem = new ToolStripMenuItem();
             ventasToolStripMenuItem = new ToolStripMenuItem();
             nominaToolStripMenuItem = new ToolStripMenuItem();
-            configuracionToolStripMenuItem = new ToolStripMenuItem();
             mantenimientoToolStripMenuItem = new ToolStripMenuItem();
-            ayudaToolStripMenuItem = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
             progressBar1 = new ProgressBar();
             toolStrip1 = new ToolStrip();
@@ -46,8 +44,6 @@
             toolStripProveedores = new ToolStripButton();
             toolStripIngresos = new ToolStripButton();
             toolStripButton1 = new ToolStripButton();
-            linkLabel1 = new LinkLabel();
-            linkLabel2 = new LinkLabel();
             linkLabel3 = new LinkLabel();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -57,7 +53,7 @@
             // menuStrip1
             // 
             menuStrip1.Font = new Font("Bell MT", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { cajaToolStripMenuItem, ventasToolStripMenuItem, nominaToolStripMenuItem, configuracionToolStripMenuItem, mantenimientoToolStripMenuItem, ayudaToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { cajaToolStripMenuItem, ventasToolStripMenuItem, nominaToolStripMenuItem, mantenimientoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(0);
@@ -70,12 +66,14 @@
             cajaToolStripMenuItem.Name = "cajaToolStripMenuItem";
             cajaToolStripMenuItem.Size = new Size(40, 24);
             cajaToolStripMenuItem.Text = "Caja";
+            cajaToolStripMenuItem.Click += cajaToolStripMenuItem_Click;
             // 
             // ventasToolStripMenuItem
             // 
             ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
             ventasToolStripMenuItem.Size = new Size(52, 24);
             ventasToolStripMenuItem.Text = "Ventas";
+            ventasToolStripMenuItem.Click += ventasToolStripMenuItem_Click;
             // 
             // nominaToolStripMenuItem
             // 
@@ -83,23 +81,11 @@
             nominaToolStripMenuItem.Size = new Size(57, 24);
             nominaToolStripMenuItem.Text = "Nomina";
             // 
-            // configuracionToolStripMenuItem
-            // 
-            configuracionToolStripMenuItem.Name = "configuracionToolStripMenuItem";
-            configuracionToolStripMenuItem.Size = new Size(88, 24);
-            configuracionToolStripMenuItem.Text = "Configuracion";
-            // 
             // mantenimientoToolStripMenuItem
             // 
             mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
             mantenimientoToolStripMenuItem.Size = new Size(97, 24);
             mantenimientoToolStripMenuItem.Text = "Mantenimientos";
-            // 
-            // ayudaToolStripMenuItem
-            // 
-            ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
-            ayudaToolStripMenuItem.Size = new Size(50, 24);
-            ayudaToolStripMenuItem.Text = "Ayuda";
             // 
             // pictureBox1
             // 
@@ -198,34 +184,6 @@
             toolStripButton1.Text = "Salir";
             toolStripButton1.TextImageRelation = TextImageRelation.ImageAboveText;
             // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.DisabledLinkColor = Color.Transparent;
-            linkLabel1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            linkLabel1.ForeColor = SystemColors.ActiveCaptionText;
-            linkLabel1.LinkColor = Color.Black;
-            linkLabel1.Location = new Point(747, 226);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(89, 17);
-            linkLabel1.TabIndex = 5;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Iniciar sesion";
-            // 
-            // linkLabel2
-            // 
-            linkLabel2.AutoSize = true;
-            linkLabel2.DisabledLinkColor = Color.Transparent;
-            linkLabel2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            linkLabel2.ForeColor = SystemColors.ActiveCaptionText;
-            linkLabel2.LinkColor = Color.Black;
-            linkLabel2.Location = new Point(747, 269);
-            linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(88, 17);
-            linkLabel2.TabIndex = 6;
-            linkLabel2.TabStop = true;
-            linkLabel2.Text = "Cerrar sesion";
-            // 
             // linkLabel3
             // 
             linkLabel3.AutoSize = true;
@@ -234,12 +192,13 @@
             linkLabel3.ForeColor = SystemColors.ActiveCaptionText;
             linkLabel3.LinkBehavior = LinkBehavior.AlwaysUnderline;
             linkLabel3.LinkColor = Color.Black;
-            linkLabel3.Location = new Point(747, 310);
+            linkLabel3.Location = new Point(748, 285);
             linkLabel3.Name = "linkLabel3";
             linkLabel3.Size = new Size(129, 17);
             linkLabel3.TabIndex = 7;
             linkLabel3.TabStop = true;
             linkLabel3.Text = "Cambiar de Usuario";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // Form1
             // 
@@ -248,8 +207,6 @@
             BackColor = Color.Gray;
             ClientSize = new Size(911, 495);
             Controls.Add(linkLabel3);
-            Controls.Add(linkLabel1);
-            Controls.Add(linkLabel2);
             Controls.Add(toolStrip1);
             Controls.Add(progressBar1);
             Controls.Add(pictureBox1);
@@ -269,27 +226,22 @@
         #endregion
 
         private MenuStrip menuStrip1;
-        private ToolStripMenuItem cajaToolStripMenuItem;
         private ToolStripMenuItem ventasToolStripMenuItem;
         private ToolStripMenuItem nominaToolStripMenuItem;
-        private ToolStripMenuItem configuracionToolStripMenuItem;
         private ToolStripMenuItem mantenimientoToolStripMenuItem;
-        private ToolStripMenuItem ayudaToolStripMenuItem;
         private PictureBox pictureBox1;
         private ProgressBar progressBar1;
         private ToolStrip toolStrip1;
         private ToolStripButton toolStripButton1;
-        private ToolStripButton toolStripButton2;
         private ToolStripButton toolStripButton3;
         private ToolStripButton Producto;
         private ToolStripButton toolStripButton5;
         private ToolStripButton toolStripButton6;
-        private LinkLabel linkLabel1;
-        private LinkLabel linkLabel2;
         private LinkLabel linkLabel3;
         private ToolStripButton toolStripFacturas;
         private ToolStripButton toolStripCompras;
         private ToolStripButton toolStripProveedores;
         private ToolStripButton toolStripIngresos;
+        private ToolStripMenuItem cajaToolStripMenuItem;
     }
 }
