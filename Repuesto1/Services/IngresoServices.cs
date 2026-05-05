@@ -1,31 +1,56 @@
-﻿using System.Text;
+﻿using Aplicada1.Core;
 using Microsoft.EntityFrameworkCore;
-using Aplicada1.Core;
 using Repuesto1.Data.Context;
 using Repuesto1.Data.Models;
 using System.Linq.Expressions;
 
 namespace Repuesto1.Services;
 
-public class IngresoServices() : IService<TblIngreso, int>
+public class IngresoServices : IService<TblIngreso, int>
 {
-    public Task<TblIngreso?> Buscar(int id)
+    private readonly RepuestoContext _context;
+
+    public IngresoServices(RepuestoContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<bool> Eliminar(int id)
+    // 💾 GUARDAR
+    public async Task<bool> Guardar(TblIngreso entidad)
     {
-        throw new NotImplementedException();
+        if (entidad.Id == 0)
+            await _context.TblIngresos.AddAsync(entidad);
+        else
+            _context.TblIngresos.Update(entidad);
+
+        return await _context.SaveChangesAsync() > 0;
     }
 
-    public Task<List<TblIngreso>> GetList(Expression<Func<TblIngreso, bool>> criterio)
+    // 🔍 BUSCAR
+    public async Task<TblIngreso?> Buscar(int id)
     {
-        throw new NotImplementedException();
+        return await _context.TblIngresos.FindAsync(id);
     }
 
-    public Task<bool> Guardar(TblIngreso entidad)
+    // ❌ ELIMINAR
+    public async Task<bool> Eliminar(int id)
     {
-        throw new NotImplementedException();
+        var ingreso = await _context.TblIngresos.FindAsync(id);
+
+        if (ingreso == null)
+            return false;
+
+        _context.TblIngresos.Remove(ingreso);
+
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    // 📋 LISTAR CON FILTRO
+    public async Task<List<TblIngreso>> GetList(Expression<Func<TblIngreso, bool>> criterio)
+    {
+        return await _context.TblIngresos
+            .Where(criterio)
+            .OrderByDescending(i => i.Fecha)
+            .ToListAsync();
     }
 }

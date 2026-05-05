@@ -1,31 +1,57 @@
-﻿using System.Text;
+﻿using Aplicada1.Core;
 using Microsoft.EntityFrameworkCore;
-using Aplicada1.Core;
 using Repuesto1.Data.Context;
 using Repuesto1.Data.Models;
 using System.Linq.Expressions;
 
 namespace Repuesto1.Services;
 
-public class ProductoServices() : IService<TblProducto, int>
+public class ProductoServices : IService<TblProducto, int>
 {
-    public Task<TblProducto?> Buscar(int id)
+    private readonly RepuestoContext _context;
+
+    public ProductoServices(RepuestoContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<bool> Eliminar(int id)
+    // 💾 GUARDAR / ACTUALIZAR
+    public async Task<bool> Guardar(TblProducto entidad)
     {
-        throw new NotImplementedException();
+        if (entidad.Id == 0)
+            await _context.TblProductos.AddAsync(entidad);
+        else
+            _context.TblProductos.Update(entidad);
+
+        return await _context.SaveChangesAsync() > 0;
     }
 
-    public Task<List<TblProducto>> GetList(Expression<Func<TblProducto, bool>> criterio)
+    // 🔍 BUSCAR
+    public async Task<TblProducto?> Buscar(int id)
     {
-        throw new NotImplementedException();
+        return await _context.TblProductos.FindAsync(id);
     }
 
-    public Task<bool> Guardar(TblProducto entidad)
+    // ❌ ELIMINAR (soft delete)
+    public async Task<bool> Eliminar(int id)
     {
-        throw new NotImplementedException();
+        var producto = await _context.TblProductos.FindAsync(id);
+
+        if (producto == null)
+            return false;
+
+        producto.Inactivo = true;
+
+        _context.TblProductos.Update(producto);
+
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    // 📋 LISTAR CON FILTRO
+    public async Task<List<TblProducto>> GetList(Expression<Func<TblProducto, bool>> criterio)
+    {
+        return await _context.TblProductos
+            .Where(criterio)
+            .ToListAsync();
     }
 }

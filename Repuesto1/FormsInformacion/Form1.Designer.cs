@@ -56,7 +56,7 @@
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(0);
-            menuStrip1.Size = new Size(911, 24);
+            menuStrip1.Size = new Size(906, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -112,7 +112,7 @@
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Padding = new Padding(0);
             toolStrip1.RenderMode = ToolStripRenderMode.Professional;
-            toolStrip1.Size = new Size(911, 49);
+            toolStrip1.Size = new Size(906, 49);
             toolStrip1.TabIndex = 4;
             toolStrip1.Text = "toolStrip1";
             toolStrip1.ItemClicked += toolStrip1_ItemClicked;
@@ -201,7 +201,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             BackColor = Color.Gray;
-            ClientSize = new Size(911, 495);
+            ClientSize = new Size(906, 495);
             Controls.Add(linkLabel3);
             Controls.Add(toolStrip1);
             Controls.Add(progressBar1);

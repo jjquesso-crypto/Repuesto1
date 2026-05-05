@@ -1,47 +1,49 @@
-﻿using System;
+﻿using Repuesto1.Data.Context;
+using Repuesto1.Data.Models;
+using Repuesto1.Services;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Repuesto1.Data;
-using Repuesto1.Data.Context;
-using Repuesto1.Data.Models;
 
 namespace Repuesto1
 {
     public partial class GestionarComprasForm : Form
     {
+        private readonly CompraServices _compraServices;
         private List<DetalleCompraTemp> detalles = new List<DetalleCompraTemp>();
 
         public GestionarComprasForm()
         {
             InitializeComponent();
+            _compraServices = Program.ServiceProvider.GetRequiredService<CompraServices>();
             CargarCompras();
         }
 
-        private void CargarCompras()
+        // 📊 CARGAR COMPRAS
+        private async void CargarCompras()
         {
-            using (var db = new RepuestoContext())
-            {
-                var compras = db.TblCompras
-                    .OrderByDescending(c => c.Fecha)
-                    .Select(c => new
-                    {
-                        c.Id,
-                        c.NumeroFactura,
-                        c.Fecha,
-                        //Proveedor = c.Proveedore.Nombre, // ← une con la tabla Proveedores
-                        c.SubTotal,
-                        c.Iva,
-                        c.Total,
-                        c.Estado
-                    })
-                    .ToList();
+            var compras = await _compraServices.GetList(c => true);
 
-                dgvCompras.DataSource = compras;
-                lblInfo.Text = $"Total: {compras.Sum(c => c.Total):C2}";
-            }
+            dgvCompras.DataSource = compras
+                .OrderByDescending(c => c.Fecha)
+                .Select(c => new
+                {
+                    c.Id,
+                    c.NumeroFactura,
+                    c.Fecha,
+                    c.SubTotal,
+                    c.Iva,
+                    c.Total,
+                    c.Estado
+                })
+                .ToList();
+
+            lblInfo.Text = $"Total: {compras.Sum(c => c.Total):C2}";
         }
 
+        // ➕ AGREGAR COMPRA (VENTANA DINÁMICA)
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             var frm = new Form();
@@ -49,26 +51,20 @@ namespace Repuesto1
             frm.Text = "Nueva Compra";
             frm.StartPosition = FormStartPosition.CenterParent;
 
-            // Proveedor
-            var lblProveedor = new Label() { Text = "Proveedor:", Location = new System.Drawing.Point(10, 20), Width = 80 };
+            var lblProveedor = new Label() { Text = "Proveedor:", Location = new System.Drawing.Point(10, 20) };
             var cbProveedor = new ComboBox() { Location = new System.Drawing.Point(100, 17), Width = 200 };
 
-            // Producto
-            var lblProducto = new Label() { Text = "Producto:", Location = new System.Drawing.Point(10, 60), Width = 80 };
-            var cbProducto = new ComboBox() { Location = new System.Drawing.Point(100, 57), Width = 150 };
+            var lblProducto = new Label() { Text = "Producto:", Location = new System.Drawing.Point(10, 60) };
+            var cbProducto = new ComboBox() { Location = new System.Drawing.Point(100, 57), Width = 200 };
 
-            // Cantidad
-            var lblCant = new Label() { Text = "Cantidad:", Location = new System.Drawing.Point(260, 60), Width = 60 };
-            var txtCant = new TextBox() { Location = new System.Drawing.Point(320, 57), Width = 80 };
+            var lblCant = new Label() { Text = "Cantidad:", Location = new System.Drawing.Point(320, 60) };
+            var txtCant = new TextBox() { Location = new System.Drawing.Point(390, 57), Width = 80 };
 
-            // Precio
-            var lblPrecio = new Label() { Text = "Precio:", Location = new System.Drawing.Point(410, 60), Width = 50 };
-            var txtPrecio = new TextBox() { Location = new System.Drawing.Point(460, 57), Width = 80 };
+            var lblPrecio = new Label() { Text = "Precio:", Location = new System.Drawing.Point(480, 60) };
+            var txtPrecio = new TextBox() { Location = new System.Drawing.Point(530, 57), Width = 80 };
 
-            // Botón agregar producto
-            var btnAgregarProd = new Button() { Text = "Agregar", Location = new System.Drawing.Point(550, 55), Width = 80 };
+            var btnAgregarProd = new Button() { Text = "Agregar", Location = new System.Drawing.Point(620, 55) };
 
-            // DataGridView para detalles
             var dgvDetalles = new DataGridView()
             {
                 Location = new System.Drawing.Point(10, 100),
@@ -76,26 +72,34 @@ namespace Repuesto1
                 AutoGenerateColumns = true
             };
 
-            // Label total
-            var lblTotal = new Label() { Text = "Total: $0.00", Location = new System.Drawing.Point(10, 360), Width = 200, Font = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Bold) };
+            var lblTotal = new Label()
+            {
+                Text = "Total: $0.00",
+                Location = new System.Drawing.Point(10, 360),
+                Font = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Bold)
+            };
 
-            // Botón guardar compra
-            var btnGuardar = new Button() { Text = "Guardar Compra", Location = new System.Drawing.Point(10, 400), Width = 150, Height = 40 };
+            var btnGuardar = new Button()
+            {
+                Text = "Guardar Compra",
+                Location = new System.Drawing.Point(10, 400),
+                Width = 150,
+                Height = 40
+            };
 
-            frm.Controls.Add(lblProveedor);
-            frm.Controls.Add(cbProveedor);
-            frm.Controls.Add(lblProducto);
-            frm.Controls.Add(cbProducto);
-            frm.Controls.Add(lblCant);
-            frm.Controls.Add(txtCant);
-            frm.Controls.Add(lblPrecio);
-            frm.Controls.Add(txtPrecio);
-            frm.Controls.Add(btnAgregarProd);
-            frm.Controls.Add(dgvDetalles);
-            frm.Controls.Add(lblTotal);
-            frm.Controls.Add(btnGuardar);
+            frm.Controls.AddRange(new Control[]
+            {
+                lblProveedor, cbProveedor,
+                lblProducto, cbProducto,
+                lblCant, txtCant,
+                lblPrecio, txtPrecio,
+                btnAgregarProd,
+                dgvDetalles,
+                lblTotal,
+                btnGuardar
+            });
 
-            // Cargar proveedores y productos
+            // 📦 CARGAR COMBOS
             using (var db = new RepuestoContext())
             {
                 cbProveedor.DataSource = db.TblProveedores.Where(p => p.Inactivo == false).ToList();
@@ -107,27 +111,24 @@ namespace Repuesto1
                 cbProducto.ValueMember = "Id";
             }
 
-            // Actualizar total
+            // 🔄 ACTUALIZAR TOTAL
             void ActualizarTotal()
             {
                 decimal total = detalles.Sum(d => d.SubTotal);
                 lblTotal.Text = $"Total: {total:C2}";
                 dgvDetalles.DataSource = null;
-                dgvDetalles.DataSource = detalles;
+                dgvDetalles.DataSource = detalles.ToList();
             }
 
-            // Agregar producto a la lista
+            // ➕ AGREGAR DETALLE
             btnAgregarProd.Click += (s, ev) =>
             {
                 if (cbProducto.SelectedValue == null) return;
-                if (string.IsNullOrWhiteSpace(txtCant.Text) || string.IsNullOrWhiteSpace(txtPrecio.Text)) return;
 
                 int idProducto = (int)cbProducto.SelectedValue;
                 string nombre = cbProducto.Text;
                 int cantidad = int.Parse(txtCant.Text);
                 decimal precio = decimal.Parse(txtPrecio.Text);
-                decimal subtotal = cantidad * precio;
-                string proveedor = cbProveedor.Text;
 
                 detalles.Add(new DetalleCompraTemp
                 {
@@ -135,53 +136,46 @@ namespace Repuesto1
                     ProductoNombre = nombre,
                     Cantidad = cantidad,
                     PrecioCompra = precio,
-                    SubTotal = subtotal,
-                    Proveedor = proveedor
+                    SubTotal = cantidad * precio
                 });
 
                 ActualizarTotal();
+
                 txtCant.Clear();
                 txtPrecio.Clear();
             };
 
-            // Guardar compra completa
-            btnGuardar.Click += (s, ev) =>
+            // 💾 GUARDAR COMPRA CON SERVICE
+            btnGuardar.Click += async (s, ev) =>
             {
-                if (cbProveedor.SelectedValue == null)
+                if (cbProveedor.SelectedValue == null || detalles.Count == 0)
                 {
-                    MessageBox.Show("Seleccione un proveedor");
+                    MessageBox.Show("Complete los datos");
                     return;
                 }
 
-                if (detalles.Count == 0)
+                decimal subtotal = detalles.Sum(d => d.SubTotal);
+                decimal iva = subtotal * 0.18m;
+                decimal total = subtotal + iva;
+
+                var compra = new TblCompra()
                 {
-                    MessageBox.Show("Agregue al menos un producto");
-                    return;
-                }
+                    NumeroFactura = $"C-{DateTime.Now.Ticks}",
+                    Fecha = DateTime.Now,
+                    IdProveedor = (int)cbProveedor.SelectedValue,
+                    SubTotal = subtotal,
+                    Iva = iva,
+                    Total = total,
+                    Estado = "PAGADA"
+                };
+
+                await _compraServices.Guardar(compra);
 
                 using (var db = new RepuestoContext())
                 {
-                    decimal subtotal = detalles.Sum(d => d.SubTotal);
-                    decimal iva = subtotal * 0.18m;
-                    decimal total = subtotal + iva;
-
-                    var compra = new TblCompra()
-                    {
-                        NumeroFactura = $"C-{DateTime.Now.Ticks}",
-                        Fecha = DateTime.Now,
-                        IdProveedor = (int)cbProveedor.SelectedValue,
-                        SubTotal = subtotal,
-                        Iva = iva,
-                        Total = total,
-                        Estado = "PAGADA",
-                    };
-                    db.TblCompras.Add(compra);
-                    db.SaveChanges();
-
-                    // Guardar cada detalle
                     foreach (var item in detalles)
                     {
-                        db.TblDetalleCompras.Add(new TblDetalleCompra()
+                        db.TblDetalleCompras.Add(new TblDetalleCompra
                         {
                             IdCompra = compra.Id,
                             IdProducto = item.IdProducto,
@@ -190,30 +184,31 @@ namespace Repuesto1
                             SubTotal = item.SubTotal
                         });
 
-                        // Actualizar stock
                         var prod = db.TblProductos.Find(item.IdProducto);
                         prod.Cantidad += item.Cantidad;
                     }
 
-                    db.SaveChanges();
-                    frm.Close();
-                    CargarCompras();
-                    MessageBox.Show($"✅ Compra guardada. Total: {total:C2}");
+                    await db.SaveChangesAsync();
                 }
+
+                MessageBox.Show("Compra guardada correctamente");
+
+                detalles.Clear();
+                frm.Close();
+                CargarCompras();
             };
 
             frm.ShowDialog();
         }
     }
 
-    // Clase temporal para los detalles
+    // 📌 MODELO TEMPORAL
     public class DetalleCompraTemp
     {
         public int IdProducto { get; set; }
-        public string ProductoNombre { get; set; } = string.Empty;
+        public string ProductoNombre { get; set; } = "";
         public int Cantidad { get; set; }
         public decimal PrecioCompra { get; set; }
         public decimal SubTotal { get; set; }
-        public string Proveedor { get; set; } = string.Empty;
     }
 }

@@ -1,5 +1,5 @@
 <Solution>
   <Project Path="Repuesto1.Model/Repuesto1.Data.csproj" Id="2743a21c-08d0-4f7c-afb2-1d71634809c1" />
+  <Project Path="Repuesto1.Tests/Repuesto1.Tests.csproj" Id="a9c63635-1511-44e7-917c-ed2471d796ce" />
   <Project Path="Repuesto1/Repuesto1.csproj" />
-  <Project Path="Respuesto1.Tests/Respuesto1.Tests.csproj" Id="222f02c3-0192-41bf-bbc5-c8a9bfa9ac0d" />
 </Solution>

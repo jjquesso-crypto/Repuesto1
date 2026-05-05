@@ -1,31 +1,57 @@
-﻿using System.Text;
+﻿using Aplicada1.Core;
 using Microsoft.EntityFrameworkCore;
-using Aplicada1.Core;
 using Repuesto1.Data.Context;
 using Repuesto1.Data.Models;
 using System.Linq.Expressions;
 
 namespace Repuesto1.Services;
 
-public class ProveedorServices() : IService<TblProveedore, int>
+public class ProveedorServices : IService<TblProveedore, int>
 {
-    public Task<TblProveedore?> Buscar(int id)
+    private readonly RepuestoContext _context;
+
+    public ProveedorServices(RepuestoContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<bool> Eliminar(int id)
+    // 💾 GUARDAR / ACTUALIZAR
+    public async Task<bool> Guardar(TblProveedore entidad)
     {
-        throw new NotImplementedException();
+        if (entidad.Id == 0)
+            await _context.TblProveedores.AddAsync(entidad);
+        else
+            _context.TblProveedores.Update(entidad);
+
+        return await _context.SaveChangesAsync() > 0;
     }
 
-    public Task<List<TblProveedore>> GetList(Expression<Func<TblProveedore, bool>> criterio)
+    // 🔍 BUSCAR
+    public async Task<TblProveedore?> Buscar(int id)
     {
-        throw new NotImplementedException();
+        return await _context.TblProveedores.FindAsync(id);
     }
 
-    public Task<bool> Guardar(TblProveedore entidad)
+    // ❌ ELIMINAR (soft delete)
+    public async Task<bool> Eliminar(int id)
     {
-        throw new NotImplementedException();
+        var proveedor = await _context.TblProveedores.FindAsync(id);
+
+        if (proveedor == null)
+            return false;
+
+        proveedor.Inactivo = true;
+
+        _context.TblProveedores.Update(proveedor);
+
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    // 📋 LISTAR CON FILTRO
+    public async Task<List<TblProveedore>> GetList(Expression<Func<TblProveedore, bool>> criterio)
+    {
+        return await _context.TblProveedores
+            .Where(criterio)
+            .ToListAsync();
     }
 }

@@ -1,37 +1,32 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using Repuesto1.Data.Models;
+using Repuesto1.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using Repuesto1.Data;
-using Repuesto1.Data.Models;
-using Repuesto1.Data.Context;
 
 namespace Repuesto1
 {
     public partial class GestionarProductForm : Form
     {
+        private readonly ProductoServices _productoServices;
+
         public GestionarProductForm()
         {
             InitializeComponent();
+            _productoServices = Program.ServiceProvider.GetRequiredService<ProductoServices>();
             CargarProductos();
         }
 
-        private void CargarProductos()
+        // 📦 CARGAR PRODUCTOS
+        private async void CargarProductos()
         {
-            using (var db = new RepuestoContext())
-            {
-                var productos = db.TblProductos.Where(p => p.Inactivo == false).ToList();
-                dgvProductos.DataSource = productos;
+            var productos = await _productoServices.GetList(p => p.Inactivo == false);
 
-                // Mostrar totales
-                lblInfo.Text = $"Total: {productos.Count} productos | Stock: {productos.Sum(p => p.Cantidad)} unidades";
-            }
+            dgvProductos.DataSource = productos;
+
+            lblInfo.Text =
+                $"Total: {productos.Count} productos | Stock: {productos.Sum(p => p.Cantidad)} unidades";
         }
     }
 }
-

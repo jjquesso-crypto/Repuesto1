@@ -1,32 +1,41 @@
-﻿using System;
+﻿using Repuesto1.Data.Models;
+using Repuesto1.Services;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using Repuesto1.Data;
-using Repuesto1.Data.Context;
-using Repuesto1.Data.Models;
 
 namespace Repuesto1
 {
     public partial class GestionarIngresosForm : Form
     {
+        private readonly IngresoServices _ingresoServices;
+
         public GestionarIngresosForm()
         {
             InitializeComponent();
+            _ingresoServices = Program.ServiceProvider.GetRequiredService<IngresoServices>();
             CargarIngresos();
         }
 
-        private void CargarIngresos()
+        // 📊 CARGAR INGRESOS
+        private async void CargarIngresos()
         {
-            using (var db = new RepuestoContext())
-            {
-                var ingresos = db.TblIngresos
-                    .OrderByDescending(m => m.Fecha)
-                    .ToList();
+            var ingresos = await _ingresoServices.GetList(i => true);
 
-                dgvIngresos.DataSource = ingresos;
+            dgvIngresos.DataSource = ingresos
+                .Select(i => new
+                {
+                    i.Id,
+                    i.Fecha,
+                    i.Tipo,
+                    i.Concepto,
+                    i.Monto,
+                    i.TipoReferencia
+                })
+                .ToList();
 
-                lblInfo.Text = $"Total Ingresos: {ingresos.Sum(i => i.Monto):C2}";
-            }
+            lblInfo.Text = $"Total Ingresos: {ingresos.Sum(i => i.Monto):C2}";
         }
     }
 }

@@ -60,5 +60,6 @@ static class Program
         services.AddTransient<CompraServices>();
         services.AddTransient<IngresoServices>();
         services.AddTransient<UsuarioServices>();
+        services.AddTransient<VentasServices>();
     }
 }

@@ -1,33 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+﻿using Aplicada1.Core;
 using Microsoft.EntityFrameworkCore;
-using Aplicada1.Core;
 using Repuesto1.Data.Context;
 using Repuesto1.Data.Models;
+using System.Linq.Expressions;
 
-namespace Repuesto1 ;
+namespace Repuesto1.Services;
 
-public class CompraServices() : IService<TblCompra, int>
+public class CompraServices : IService<TblCompra, int>
 {
-    public Task<TblCompra?> Buscar(int id)
+    private readonly RepuestoContext _context;
+
+    public CompraServices(RepuestoContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<bool> Eliminar(int id)
+    // 💾 GUARDAR (INSERT / UPDATE)
+    public async Task<bool> Guardar(TblCompra entidad)
     {
-        throw new NotImplementedException();
+        if (entidad.Id == 0)
+            await _context.TblCompras.AddAsync(entidad);
+        else
+            _context.TblCompras.Update(entidad);
+
+        return await _context.SaveChangesAsync() > 0;
     }
 
-    public Task<List<TblCompra>> GetList(Expression<Func<TblCompra, bool>> criterio)
+    // 🔍 BUSCAR POR ID
+    public async Task<TblCompra?> Buscar(int id)
     {
-        throw new NotImplementedException();
+        return await _context.TblCompras
+            .Include(c => c.TblDetalleCompras)
+            .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public Task<bool> Guardar(TblCompra entidad)
+    // ❌ ELIMINAR (SOFT DELETE OPCIONAL)
+    public async Task<bool> Eliminar(int id)
     {
-        throw new NotImplementedException();
+        var compra = await _context.TblCompras.FindAsync(id);
+
+        if (compra == null)
+            return false;
+
+        _context.TblCompras.Remove(compra);
+
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    // 📋 LISTADO FILTRADO
+    public async Task<List<TblCompra>> GetList(Expression<Func<TblCompra, bool>> criterio)
+    {
+        return await _context.TblCompras
+            .Where(criterio)
+            .ToListAsync();
+    }
+
+    // 📦 LISTADO COMPLETO CON DETALLES
+    public async Task<List<TblCompra>> GetAll()
+    {
+        return await _context.TblCompras
+            .Include(c => c.TblDetalleCompras)
+            .OrderByDescending(c => c.Fecha)
+            .ToListAsync();
     }
 }
