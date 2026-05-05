@@ -18,7 +18,10 @@ public class IngresoServices : IService<TblIngreso, int>
     // 💾 GUARDAR
     public async Task<bool> Guardar(TblIngreso entidad)
     {
-        if (entidad.Id == 0)
+        var existe = entidad.Id != 0
+            && await _context.TblProveedores.AsNoTracking().AnyAsync(p => p.Id == entidad.Id);
+
+        if (!existe)
             await _context.TblIngresos.AddAsync(entidad);
         else
             _context.TblIngresos.Update(entidad);
