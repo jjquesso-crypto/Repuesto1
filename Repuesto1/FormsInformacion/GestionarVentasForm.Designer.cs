@@ -31,7 +31,7 @@
             dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvVentas.Size = new Size(760, 380);
             dgvVentas.TabIndex = 0;
-            dgvVentas.CellContentClick += dgvVentas_CellContentClick;
+            //dgvVentas.CellContentClick += dgvVentas_CellContentClick;
             // 
             // lblInfo
             // 
