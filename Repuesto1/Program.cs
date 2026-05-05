@@ -52,6 +52,7 @@ static class Program
         services.AddTransient<GestionarIngresosForm>();
         services.AddTransient<GestionarVentasForm>();
         services.AddTransient<GestionarCajaForm>();
+        services.AddTransient<NominaForm>();
 
         // Services
         services.AddTransient<ProductoServices>();

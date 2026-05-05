@@ -101,5 +101,26 @@ namespace Repuesto1
             var form = Program.ServiceProvider.GetRequiredService<GestionarVentasForm>();
             form.ShowDialog();
         }
+
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+
+            IngresoForm login = new IngresoForm();
+            login.ShowDialog();
+
+            this.Close();
+        }
+
+        private void nominaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NominaForm form = new NominaForm();
+            form.ShowDialog();
+        }
+
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

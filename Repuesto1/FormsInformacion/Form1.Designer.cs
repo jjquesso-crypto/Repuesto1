@@ -34,7 +34,6 @@
             cajaToolStripMenuItem = new ToolStripMenuItem();
             ventasToolStripMenuItem = new ToolStripMenuItem();
             nominaToolStripMenuItem = new ToolStripMenuItem();
-            mantenimientoToolStripMenuItem = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
             progressBar1 = new ProgressBar();
             toolStrip1 = new ToolStrip();
@@ -53,7 +52,7 @@
             // menuStrip1
             // 
             menuStrip1.Font = new Font("Bell MT", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { cajaToolStripMenuItem, ventasToolStripMenuItem, nominaToolStripMenuItem, mantenimientoToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { cajaToolStripMenuItem, ventasToolStripMenuItem, nominaToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(0);
@@ -80,12 +79,7 @@
             nominaToolStripMenuItem.Name = "nominaToolStripMenuItem";
             nominaToolStripMenuItem.Size = new Size(57, 24);
             nominaToolStripMenuItem.Text = "Nomina";
-            // 
-            // mantenimientoToolStripMenuItem
-            // 
-            mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
-            mantenimientoToolStripMenuItem.Size = new Size(97, 24);
-            mantenimientoToolStripMenuItem.Text = "Mantenimientos";
+            nominaToolStripMenuItem.Click += nominaToolStripMenuItem_Click;
             // 
             // pictureBox1
             // 
@@ -183,6 +177,7 @@
             toolStripButton1.Size = new Size(34, 47);
             toolStripButton1.Text = "Salir";
             toolStripButton1.TextImageRelation = TextImageRelation.ImageAboveText;
+            toolStripButton1.Click += toolStripButton1_Click_1;
             // 
             // linkLabel3
             // 
@@ -204,6 +199,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             BackColor = Color.Gray;
             ClientSize = new Size(911, 495);
             Controls.Add(linkLabel3);
@@ -228,7 +224,6 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem ventasToolStripMenuItem;
         private ToolStripMenuItem nominaToolStripMenuItem;
-        private ToolStripMenuItem mantenimientoToolStripMenuItem;
         private PictureBox pictureBox1;
         private ProgressBar progressBar1;
         private ToolStrip toolStrip1;

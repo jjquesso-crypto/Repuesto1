@@ -3,6 +3,7 @@ using Repuesto1.Data.Models;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Repuesto1
 {
@@ -16,7 +17,17 @@ namespace Repuesto1
         // 🔹 LOAD DEL FORM
         private void GestionarCajaForm_Load(object sender, EventArgs e)
         {
+            txtFactura.ReadOnly = true;
+            txtFecha.ReadOnly = true;
+            txtUsuario.ReadOnly = true;
+
             txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            GenerarNumeroFactura();
+
+            //if (Sesion.UsuarioActual != null)
+            //{
+            //    txtUsuario.Text = Sesion.UsuarioActual.NombreUsuario;
+            //}
 
             // Cargar productos en el ComboBox
             using (var db = new RepuestoContext())
@@ -38,13 +49,65 @@ namespace Repuesto1
             dataGridView1.Columns.Add("Precio", "Precio");
             dataGridView1.Columns.Add("SubTotal", "SubTotal");
 
+            dataGridView1.Columns["IdProducto"].Visible = false;
             dataGridView1.AllowUserToAddRows = false;
         }
 
+        private void GenerarNumeroFactura()
+        {
+            using (var db = new RepuestoContext())
+            {
+                int ultimoId = 0;
+
+                if (db.TblVentas.Any())
+                {
+                    ultimoId = db.TblVentas.Max(x => x.Id);
+                }
+
+                int nuevoNumero = ultimoId + 1;
+
+                txtFactura.Text = "FAC-" + nuevoNumero.ToString("0000");
+            }
+        }
         // 🔹 BOTÓN AGREGAR AL DETALLE
         private void btnDetalle_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Aquí agregarás el producto al detalle");
+            if (comboBox1.SelectedIndex == -1 || txtCantidad.Text.Trim() == "")
+            {
+                MessageBox.Show("Seleccione producto y cantidad");
+                return;
+            }
+
+            int cantidad = Convert.ToInt32(txtCantidad.Text);
+
+            using (var db = new RepuestoContext())
+            {
+                int idProducto = Convert.ToInt32(comboBox1.SelectedValue);
+
+                var producto = db.TblProductos.FirstOrDefault(p => p.Id == idProducto);
+
+                if (producto == null)
+                {
+                    MessageBox.Show("Producto no encontrado");
+                    return;
+                }
+
+                if (cantidad > producto.Cantidad)
+                {
+                    MessageBox.Show("No hay suficiente existencia");
+                    return;
+                }
+
+                decimal precio = Convert.ToDecimal(producto.Precio);
+                decimal subtotal = precio * cantidad;
+
+                dataGridView1.Rows.Add(producto.Id, producto.Nombre, cantidad, precio, subtotal);
+
+                CalcularTotales();
+
+                comboBox1.SelectedIndex = -1;
+                txtCantidad.Clear();
+            }
         }
 
         // 🔹 BOTÓN QUITAR PRODUCTO
@@ -53,13 +116,86 @@ namespace Repuesto1
             if (dataGridView1.CurrentRow != null)
             {
                 dataGridView1.Rows.RemoveAt(dataGridView1.CurrentRow.Index);
+                CalcularTotales();
             }
         }
 
         // 🔹 BOTÓN COBRAR
         private void btnCobrar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Aquí irá la lógica de guardar la venta");
+            if (dataGridView1.Rows.Count == 0)
+            {
+                MessageBox.Show("Debe agregar productos");
+                return;
+            }
+
+            using (var db = new RepuestoContext())
+            {
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. VENTA
+                        TblVentas venta = new TblVentas()
+                        {
+                            NumeroFactura = txtFactura.Text,
+                            Fecha = DateTime.Now,
+                            SubTotal = Convert.ToDecimal(lblSubTotal.Text),
+                            Itebis = Convert.ToDecimal(lblItebis.Text),
+                            Total = Convert.ToDecimal(lblTotal.Text),
+                            Estado = "PAGADA"
+                        };
+
+                        db.TblVentas.Add(venta);
+                        db.SaveChanges();
+
+                        // 2. DETALLES DE VENTA
+                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        {
+                            TblDetalleVentas detalle = new TblDetalleVentas()
+                            {
+                                IdVenta = venta.Id,
+                                IdProducto = Convert.ToInt32(row.Cells["IdProducto"].Value),
+                                Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+                                PrecioVenta = Convert.ToDecimal(row.Cells["Precio"].Value),
+                                SubTotal = Convert.ToDecimal(row.Cells["SubTotal"].Value)
+                            };
+
+                            db.TblDetalleVentas.Add(detalle);
+                        }
+
+                        db.SaveChanges();
+
+                        // 3. INGRESO
+                        TblIngreso ingreso = new TblIngreso()
+                        {
+                            Fecha = DateTime.Now,
+                            Tipo = "VENTA",
+                            Concepto = "Venta Factura " + txtFactura.Text,
+                            Monto = venta.Total ?? 0,
+                            IdReferencia = venta.Id,
+                            TipoReferencia = "VENTA"
+                        };
+
+                        db.TblIngresos.Add(ingreso);
+                        db.SaveChanges();
+
+                        transaction.Commit();
+
+                        MessageBox.Show("Venta registrada correctamente");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
+
+            // limpiar
+            dataGridView1.Rows.Clear();
+            CalcularTotales();
+            GenerarNumeroFactura();
         }
 
         // 🔹 MÉTODO PARA CALCULAR TOTALES (LO USARÁS DESPUÉS)
@@ -81,6 +217,19 @@ namespace Repuesto1
             lblSubTotal.Text = subtotal.ToString("N2");
             lblItebis.Text = itebis.ToString("N2");
             lblTotal.Text = total.ToString("N2");
+        }
+
+        private void txtFactura_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCantidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

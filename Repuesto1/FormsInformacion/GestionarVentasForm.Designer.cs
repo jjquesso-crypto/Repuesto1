@@ -19,7 +19,6 @@
         private void InitializeComponent()
         {
             dgvVentas = new DataGridView();
-            btnDetalle = new Button();
             lblInfo = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             SuspendLayout();
@@ -32,16 +31,7 @@
             dgvVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvVentas.Size = new Size(760, 380);
             dgvVentas.TabIndex = 0;
-            // 
-            // btnDetalle
-            // 
-            btnDetalle.Location = new Point(12, 411);
-            btnDetalle.Name = "btnDetalle";
-            btnDetalle.Size = new Size(100, 30);
-            btnDetalle.TabIndex = 2;
-            btnDetalle.Text = "Ver Detalle";
-            btnDetalle.UseVisualStyleBackColor = true;
-            btnDetalle.Click += btnDetalle_Click;
+            dgvVentas.CellContentClick += dgvVentas_CellContentClick;
             // 
             // lblInfo
             // 
@@ -59,7 +49,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(784, 461);
             Controls.Add(lblInfo);
-            Controls.Add(btnDetalle);
             Controls.Add(dgvVentas);
             Name = "GestionarVentasForm";
             StartPosition = FormStartPosition.CenterScreen;
