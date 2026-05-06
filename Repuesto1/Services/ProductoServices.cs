@@ -19,13 +19,11 @@ public class ProductoServices : IService<TblProducto, int>
     public async Task<bool> Guardar(TblProducto entidad)
     {
         var existe = entidad.Id != 0
-            && await _context.TblProveedores.AsNoTracking().AnyAsync(p => p.Id == entidad.Id);
-
+            && await _context.TblProductos.AsNoTracking().AnyAsync(p => p.Id == entidad.Id); // ← TblProductos
         if (!existe)
             await _context.TblProductos.AddAsync(entidad);
         else
             _context.TblProductos.Update(entidad);
-
         return await _context.SaveChangesAsync() > 0;
     }
 

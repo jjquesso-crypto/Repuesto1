@@ -86,32 +86,32 @@ public class IngresoServicesTests
         Assert.Equal(8000, saved.Monto);
     }
 
-    //[Fact]
-    //public async Task Guardar_CuandoIngresoExiste_ModificaCorrectamente()
-    //{
-    //    var dbName = TestDbContextFactory.NewDatabaseName();
+    [Fact]
+    public async Task Guardar_CuandoIngresoExiste_ModificaCorrectamente()
+    {
+        var dbName = TestDbContextFactory.NewDatabaseName();
 
-    //    await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
-    //    {
-    //        seedContext.TblIngresos.Add(CrearIngreso(id: 20, concepto: "Ingreso viejo", monto: 1500));
-    //        await seedContext.SaveChangesAsync();
-    //    }
+        await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
+        {
+            seedContext.TblIngresos.Add(CrearIngreso(id: 20, concepto: "Ingreso viejo", monto: 1500));
+            await seedContext.SaveChangesAsync();
+        }
 
-    //    await using var context = TestDbContextFactory.CreateContext(dbName);
-    //    var service = new IngresoServices(context);
+        await using var context = TestDbContextFactory.CreateContext(dbName);
+        var service = new IngresoServices(context);
 
-    //    var actualizado = CrearIngreso(id: 20, concepto: "Ingreso actualizado", monto: 9999);
+        var actualizado = CrearIngreso(id: 20, concepto: "Ingreso actualizado", monto: 9999);
 
-    //    var result = await service.Guardar(actualizado);
+        var result = await service.Guardar(actualizado);
 
-    //    Assert.True(result);
+        Assert.True(result);
 
-    //    var saved = await context.TblIngresos.FirstOrDefaultAsync(i => i.Id == 20);
+        var saved = await context.TblIngresos.FirstOrDefaultAsync(i => i.Id == 20);
 
-    //    Assert.NotNull(saved);
-    //    Assert.Equal("Ingreso actualizado", saved!.Concepto);
-    //    Assert.Equal(9999, saved.Monto);
-    //}
+        Assert.NotNull(saved);
+        Assert.Equal("Ingreso actualizado", saved!.Concepto);
+        Assert.Equal(9999, saved.Monto);
+    }
 
     [Fact]
     public async Task Eliminar_CuandoExisteIngreso_EliminaCorrectamente()

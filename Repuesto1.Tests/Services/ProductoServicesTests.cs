@@ -86,33 +86,33 @@ public class ProductoServicesTests
         Assert.Equal(4500, saved.Precio);
     }
 
-    //[Fact]
-    //public async Task Guardar_CuandoProductoExiste_ModificaCorrectamente()
-    //{
-    //    var dbName = TestDbContextFactory.NewDatabaseName();
+    [Fact]
+    public async Task Guardar_CuandoProductoExiste_ModificaCorrectamente()
+    {
+        var dbName = TestDbContextFactory.NewDatabaseName();
 
-    //    await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
-    //    {
-    //        seedContext.TblProductos.Add(CrearProducto(id: 20, nombre: "Correa", precio: 700, cantidad: 8));
-    //        await seedContext.SaveChangesAsync();
-    //    }
+        await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
+        {
+            seedContext.TblProductos.Add(CrearProducto(id: 20, nombre: "Correa", precio: 700, cantidad: 8));
+            await seedContext.SaveChangesAsync();
+        }
 
-    //    await using var context = TestDbContextFactory.CreateContext(dbName);
-    //    var service = new ProductoServices(context);
+        await using var context = TestDbContextFactory.CreateContext(dbName);
+        var service = new ProductoServices(context);
 
-    //    var actualizado = CrearProducto(id: 20, nombre: "Correa Industrial", precio: 1000, cantidad: 12);
+        var actualizado = CrearProducto(id: 20, nombre: "Correa Industrial", precio: 1000, cantidad: 12);
 
-    //    var result = await service.Guardar(actualizado);
+        var result = await service.Guardar(actualizado);
 
-    //    Assert.True(result);
+        Assert.True(result);
 
-    //    var saved = await context.TblProductos.FirstOrDefaultAsync(p => p.Id == 20);
+        var saved = await context.TblProductos.FirstOrDefaultAsync(p => p.Id == 20);
 
-    //    Assert.NotNull(saved);
-    //    Assert.Equal("Correa Industrial", saved!.Nombre);
-    //    Assert.Equal(1000, saved.Precio);
-    //    Assert.Equal(12, saved.Cantidad);
-    //}
+        Assert.NotNull(saved);
+        Assert.Equal("Correa Industrial", saved!.Nombre);
+        Assert.Equal(1000, saved.Precio);
+        Assert.Equal(12, saved.Cantidad);
+    }
 
     [Fact]
     public async Task Eliminar_CuandoExisteProducto_LoMarcaComoInactivo()
