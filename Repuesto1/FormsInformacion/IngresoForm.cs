@@ -48,13 +48,22 @@ namespace Repuesto1.FormsInformacion
             }
 
             var existe = await _usuarioServices.ValidarLogin(usuario, clave);
-
             if (existe != null)
             {
                 this.Hide();
 
-                var principal = Program.ServiceProvider.GetRequiredService<Form1>();
-                principal.ShowDialog();
+                string rol = existe.Rol?.ToLower() ?? "";
+
+                if (rol == "caja")
+                {
+                    var caja = Program.ServiceProvider.GetRequiredService<GestionarCajaForm>();
+                    caja.ShowDialog();
+                }
+                else
+                {
+                    var principal = Program.ServiceProvider.GetRequiredService<Form1>();
+                    principal.ShowDialog();
+                }
 
                 this.Close();
             }

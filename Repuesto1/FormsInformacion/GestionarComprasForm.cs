@@ -45,69 +45,147 @@ namespace Repuesto1
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             var frm = new Form();
-            frm.Size = new System.Drawing.Size(700, 550);
+            frm.Size = new System.Drawing.Size(750, 600);
+            frm.MinimumSize = new System.Drawing.Size(750, 600);
             frm.Text = "Nueva Compra";
             frm.StartPosition = FormStartPosition.CenterParent;
+            frm.BackColor = System.Drawing.Color.FromArgb(245, 245, 245);
 
-            var lblProveedor = new Label() { Text = "Proveedor:", Location = new System.Drawing.Point(10, 20) };
-            var cbProveedor = new ComboBox() { Location = new System.Drawing.Point(100, 17), Width = 200 };
-
-            var lblProducto = new Label() { Text = "Producto:", Location = new System.Drawing.Point(10, 60) };
-            var cbProducto = new ComboBox() { Location = new System.Drawing.Point(100, 57), Width = 200 };
-
-            var lblCant = new Label() { Text = "Cantidad:", Location = new System.Drawing.Point(320, 60) };
-            var txtCant = new TextBox() { Location = new System.Drawing.Point(390, 57), Width = 80 };
-
-            var lblPrecio = new Label() { Text = "Precio:", Location = new System.Drawing.Point(480, 60) };
-            var txtPrecio = new TextBox() { Location = new System.Drawing.Point(530, 57), Width = 80 };
-
-            var btnAgregarProd = new Button() { Text = "Agregar", Location = new System.Drawing.Point(620, 55) };
-
-            var dgvDetalles = new DataGridView()
+            // ── Panel superior (proveedor + producto) ──
+            var panelTop = new Panel()
             {
-                Location = new System.Drawing.Point(10, 100),
-                Size = new System.Drawing.Size(660, 250),
-                AutoGenerateColumns = true
+                Dock = DockStyle.Top,
+                Height = 110,
+                BackColor = System.Drawing.Color.White,
+                Padding = new Padding(10)
+            };
+
+            var lblProveedor = new Label() { Text = "Proveedor:", Location = new System.Drawing.Point(10, 15), Width = 80, TextAlign = System.Drawing.ContentAlignment.MiddleLeft };
+            var cbProveedor = new ComboBox() { Location = new System.Drawing.Point(95, 12), Width = 220, DropDownStyle = ComboBoxStyle.DropDownList };
+
+            var lblProducto = new Label() { Text = "Producto:", Location = new System.Drawing.Point(10, 55), Width = 80, TextAlign = System.Drawing.ContentAlignment.MiddleLeft };
+            var cbProducto = new ComboBox() { Location = new System.Drawing.Point(95, 52), Width = 220, DropDownStyle = ComboBoxStyle.DropDownList };
+
+            var lblCant = new Label() { Text = "Cantidad:", Location = new System.Drawing.Point(330, 55), Width = 70, TextAlign = System.Drawing.ContentAlignment.MiddleLeft };
+            var txtCant = new TextBox() { Location = new System.Drawing.Point(405, 52), Width = 70 };
+
+            var lblPrecio = new Label() { Text = "Precio:", Location = new System.Drawing.Point(490, 55), Width = 55, TextAlign = System.Drawing.ContentAlignment.MiddleLeft };
+            var txtPrecio = new TextBox() { Location = new System.Drawing.Point(548, 52), Width = 90, ReadOnly = true, BackColor = System.Drawing.Color.FromArgb(235, 235, 235) };
+
+            var btnAgregarProd = new Button()
+            {
+                Text = "➕ Agregar",
+                Location = new System.Drawing.Point(650, 48),
+                Width = 85,
+                Height = 30,
+                BackColor = System.Drawing.Color.FromArgb(0, 122, 204),
+                ForeColor = System.Drawing.Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand
+            };
+            btnAgregarProd.FlatAppearance.BorderSize = 0;
+
+            panelTop.Controls.AddRange(new Control[]
+            {
+        lblProveedor, cbProveedor,
+        lblProducto, cbProducto,
+        lblCant, txtCant,
+        lblPrecio, txtPrecio,
+        btnAgregarProd
+            });
+
+            // ── Panel inferior (total + botón guardar) ──
+            var panelBottom = new Panel()
+            {
+                Dock = DockStyle.Bottom,
+                Height = 60,
+                BackColor = System.Drawing.Color.White,
+                Padding = new Padding(10)
             };
 
             var lblTotal = new Label()
             {
                 Text = "Total: $0.00",
-                Location = new System.Drawing.Point(10, 360),
-                Font = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Bold)
+                Location = new System.Drawing.Point(10, 15),
+                Width = 300,
+                Font = new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Bold),
+                ForeColor = System.Drawing.Color.FromArgb(0, 122, 204)
             };
 
             var btnGuardar = new Button()
             {
-                Text = "Guardar Compra",
-                Location = new System.Drawing.Point(10, 400),
-                Width = 150,
-                Height = 40
+                Text = "💾 Guardar Compra",
+                Anchor = AnchorStyles.Right | AnchorStyles.Bottom,
+                Size = new System.Drawing.Size(160, 38),
+                BackColor = System.Drawing.Color.FromArgb(40, 167, 69),
+                ForeColor = System.Drawing.Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand,
+                Font = new System.Drawing.Font("Segoe UI", 9, System.Drawing.FontStyle.Bold)
+            };
+            btnGuardar.FlatAppearance.BorderSize = 0;
+            btnGuardar.Location = new System.Drawing.Point(panelBottom.Width - 170, 11);
+            panelBottom.Controls.AddRange(new Control[] { lblTotal, btnGuardar });
+
+            // Reposicionar botón guardar al redimensionar
+            panelBottom.Resize += (s, ev) =>
+            {
+                btnGuardar.Location = new System.Drawing.Point(panelBottom.Width - 170, 11);
             };
 
-            frm.Controls.AddRange(new Control[]
+            // ── DataGridView (centro, se estira) ──
+            var dgvDetalles = new DataGridView()
             {
-                lblProveedor, cbProveedor,
-                lblProducto, cbProducto,
-                lblCant, txtCant,
-                lblPrecio, txtPrecio,
-                btnAgregarProd,
-                dgvDetalles,
-                lblTotal,
-                btnGuardar
-            });
+                Dock = DockStyle.Fill,
+                AutoGenerateColumns = true,
+                AllowUserToAddRows = false,
+                ReadOnly = true,
+                BackgroundColor = System.Drawing.Color.White,
+                BorderStyle = BorderStyle.None,
+                RowHeadersVisible = false,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            };
+            dgvDetalles.ColumnHeadersDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
+            dgvDetalles.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
+            dgvDetalles.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 9, System.Drawing.FontStyle.Bold);
+            dgvDetalles.EnableHeadersVisualStyles = false;
 
+            frm.Controls.Add(dgvDetalles);   // Fill va primero
+            frm.Controls.Add(panelBottom);
+            frm.Controls.Add(panelTop);
+
+            // ── Cargar datos ──
+            List<TblProducto> productos;
             using (var db = new RepuestoContext())
             {
                 cbProveedor.DataSource = db.TblProveedores.Where(p => p.Inactivo == false).ToList();
                 cbProveedor.DisplayMember = "Nombre";
                 cbProveedor.ValueMember = "Id";
 
-                cbProducto.DataSource = db.TblProductos.Where(p => p.Inactivo == false).ToList();
+                productos = db.TblProductos.Where(p => p.Inactivo == false).ToList();
+                cbProducto.DataSource = productos;
                 cbProducto.DisplayMember = "Nombre";
                 cbProducto.ValueMember = "Id";
             }
 
+            // ── Precio automático al seleccionar producto ──
+            cbProducto.SelectedIndexChanged += (s, ev) =>
+            {
+                if (cbProducto.SelectedValue == null) return;
+                int idSeleccionado = (int)cbProducto.SelectedValue;
+                var prod = productos.FirstOrDefault(p => p.Id == idSeleccionado);
+                if (prod != null)
+                    txtPrecio.Text = prod.Precio.ToString();
+            };
+
+            if (cbProducto.SelectedValue != null)
+            {
+                var prod = productos.FirstOrDefault(p => p.Id == (int)cbProducto.SelectedValue);
+                if (prod != null) txtPrecio.Text = prod.Precio.ToString();
+            }
+
+            // ── Actualizar tabla y total ──
             void ActualizarTotal()
             {
                 decimal total = detalles.Sum(d => d.SubTotal);
@@ -116,35 +194,47 @@ namespace Repuesto1
                 dgvDetalles.DataSource = detalles.ToList();
             }
 
+            // ── Agregar producto ──
             btnAgregarProd.Click += (s, ev) =>
             {
                 if (cbProducto.SelectedValue == null) return;
+                if (string.IsNullOrWhiteSpace(txtCant.Text) || string.IsNullOrWhiteSpace(txtPrecio.Text))
+                {
+                    MessageBox.Show("Complete cantidad y precio.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                int idProducto = (int)cbProducto.SelectedValue;
-                string nombre = cbProducto.Text;
-                int cantidad = int.Parse(txtCant.Text);
-                decimal precio = decimal.Parse(txtPrecio.Text);
+                if (!int.TryParse(txtCant.Text, out int cantidad) || cantidad <= 0)
+                {
+                    MessageBox.Show("La cantidad debe ser un número válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!decimal.TryParse(txtPrecio.Text, out decimal precio) || precio <= 0)
+                {
+                    MessageBox.Show("El precio no es válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 detalles.Add(new DetalleCompraTemp
                 {
-                    IdProducto = idProducto,
-                    ProductoNombre = nombre,
+                    IdProducto = (int)cbProducto.SelectedValue,
+                    ProductoNombre = cbProducto.Text,
                     Cantidad = cantidad,
                     PrecioCompra = precio,
                     SubTotal = cantidad * precio
                 });
 
                 ActualizarTotal();
-
                 txtCant.Clear();
-                txtPrecio.Clear();
             };
 
+            // ── Guardar compra ──
             btnGuardar.Click += async (s, ev) =>
             {
                 if (cbProveedor.SelectedValue == null || detalles.Count == 0)
                 {
-                    MessageBox.Show("Complete los datos");
+                    MessageBox.Show("Seleccione proveedor y agregue al menos un producto.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -179,20 +269,33 @@ namespace Repuesto1
                         });
 
                         var prod = db.TblProductos.Find(item.IdProducto);
-                        prod.Cantidad += item.Cantidad;
+                        if (prod != null) prod.Cantidad += item.Cantidad;
                     }
-
                     await db.SaveChangesAsync();
                 }
 
-                MessageBox.Show("Compra guardada correctamente");
-
+                MessageBox.Show($"✅ Compra guardada. Total: {total:C2}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 detalles.Clear();
                 frm.Close();
                 CargarCompras();
             };
 
             frm.ShowDialog();
+        }
+
+        private void lblInfo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GestionarComprasForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblInfo_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 
