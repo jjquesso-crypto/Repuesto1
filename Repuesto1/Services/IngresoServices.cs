@@ -15,11 +15,10 @@ public class IngresoServices : IService<TblIngreso, int>
         _context = context;
     }
 
-    // 💾 GUARDAR
     public async Task<bool> Guardar(TblIngreso entidad)
     {
         var existe = entidad.Id != 0
-            && await _context.TblIngresos.AsNoTracking().AnyAsync(i => i.Id == entidad.Id); // ← TblIngresos
+            && await _context.TblIngresos.AsNoTracking().AnyAsync(i => i.Id == entidad.Id); 
         if (!existe)
             await _context.TblIngresos.AddAsync(entidad);
         else
@@ -27,13 +26,11 @@ public class IngresoServices : IService<TblIngreso, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 🔍 BUSCAR
     public async Task<TblIngreso?> Buscar(int id)
     {
         return await _context.TblIngresos.FindAsync(id);
     }
 
-    // ❌ ELIMINAR
     public async Task<bool> Eliminar(int id)
     {
         var ingreso = await _context.TblIngresos.FindAsync(id);
@@ -46,7 +43,6 @@ public class IngresoServices : IService<TblIngreso, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 📋 LISTAR CON FILTRO
     public async Task<List<TblIngreso>> GetList(Expression<Func<TblIngreso, bool>> criterio)
     {
         return await _context.TblIngresos

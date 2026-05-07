@@ -15,11 +15,10 @@ public class CompraServices : IService<TblCompra, int>
         _context = context;
     }
 
-    // 💾 GUARDAR (INSERT / UPDATE)
     public async Task<bool> Guardar(TblCompra entidad)
     {
         var existe = entidad.Id != 0
-            && await _context.TblCompras.AsNoTracking().AnyAsync(c => c.Id == entidad.Id); // ← TblCompras
+            && await _context.TblCompras.AsNoTracking().AnyAsync(c => c.Id == entidad.Id);
         if (!existe)
             await _context.TblCompras.AddAsync(entidad);
         else
@@ -27,7 +26,6 @@ public class CompraServices : IService<TblCompra, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 🔍 BUSCAR POR ID
     public async Task<TblCompra?> Buscar(int id)
     {
         return await _context.TblCompras
@@ -35,7 +33,6 @@ public class CompraServices : IService<TblCompra, int>
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    // ❌ ELIMINAR (SOFT DELETE OPCIONAL)
     public async Task<bool> Eliminar(int id)
     {
         var compra = await _context.TblCompras.FindAsync(id);
@@ -48,7 +45,6 @@ public class CompraServices : IService<TblCompra, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 📋 LISTADO FILTRADO
     public async Task<List<TblCompra>> GetList(Expression<Func<TblCompra, bool>> criterio)
     {
         return await _context.TblCompras
@@ -56,7 +52,6 @@ public class CompraServices : IService<TblCompra, int>
             .ToListAsync();
     }
 
-    // 📦 LISTADO COMPLETO CON DETALLES
     public async Task<List<TblCompra>> GetAll()
     {
         return await _context.TblCompras

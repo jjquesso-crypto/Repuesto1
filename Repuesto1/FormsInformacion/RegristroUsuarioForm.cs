@@ -56,7 +56,6 @@ namespace Repuesto1.FormsInformacion
 
         }
 
-        // BOTON GUARDAR
         private async void button1_Click(object sender, EventArgs e)
         {
             string nombres = textBox1.Text.Trim();
@@ -102,7 +101,6 @@ namespace Repuesto1.FormsInformacion
             }
         }
 
-        // BOTON CANCELAR
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();

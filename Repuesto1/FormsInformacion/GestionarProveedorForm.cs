@@ -18,7 +18,6 @@ namespace Repuesto1
             CargarProveedores();
         }
 
-        // 📦 CARGAR PROVEEDORES
         private async void CargarProveedores()
         {
             var proveedores = await _proveedorServices.GetList(p => p.Inactivo == false);
@@ -28,14 +27,12 @@ namespace Repuesto1
             lblInfo.Text = $"Total: {proveedores.Count} proveedores";
         }
 
-        // ➕ AGREGAR PROVEEDOR
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             var frm = CrearFormularioProveedor(null);
             frm.ShowDialog();
         }
 
-        // ✏️ EDITAR PROVEEDOR
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (dgvProveedores.SelectedRows.Count == 0)
@@ -50,7 +47,6 @@ namespace Repuesto1
             frm.ShowDialog();
         }
 
-        // ❌ INACTIVAR
         private async void btnInactivar_Click(object sender, EventArgs e)
         {
             if (dgvProveedores.SelectedRows.Count == 0)
@@ -67,7 +63,6 @@ namespace Repuesto1
             CargarProveedores();
         }
 
-        // 🧠 FORM REUTILIZABLE (AGREGAR / EDITAR)
         private Form CrearFormularioProveedor(TblProveedore? prov)
         {
             var frm = new Form();

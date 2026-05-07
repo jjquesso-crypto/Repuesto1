@@ -15,7 +15,6 @@ public class VentasServices : IService<TblVentas, int>
         _context = context;
     }
 
-    // 💾 GUARDAR / ACTUALIZAR
     public async Task<bool> Guardar(TblVentas entidad)
     {
         if (entidad.Id == 0)
@@ -26,13 +25,11 @@ public class VentasServices : IService<TblVentas, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 🔍 BUSCAR
     public async Task<TblVentas?> Buscar(int id)
     {
         return await _context.TblVentas.FindAsync(id);
     }
 
-    // ❌ ELIMINAR
     public async Task<bool> Eliminar(int id)
     {
         var venta = await _context.TblVentas.FindAsync(id);
@@ -45,7 +42,6 @@ public class VentasServices : IService<TblVentas, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 📋 LISTAR
     public async Task<List<TblVentas>> GetList(Expression<Func<TblVentas, bool>> criterio)
     {
         return await _context.TblVentas

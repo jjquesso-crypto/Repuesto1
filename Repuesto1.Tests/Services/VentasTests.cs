@@ -11,7 +11,6 @@ public class VentasTests
     [Fact]
     public async Task Guardar_CuandoEsNuevaVenta_InsertaCorrectamente()
     {
-        // Arrange
         var dbName = TestDbContextFactory.NewDatabaseName();
         await using var context = TestDbContextFactory.CreateContext(dbName);
         var service = new VentasServices(context);
@@ -25,10 +24,8 @@ public class VentasTests
             Estado = "Activa"
         };
 
-        // Act
         var result = await service.Guardar(nuevaVenta);
 
-        // Assert
         Assert.True(result);
         var savedVenta = await context.TblVentas.FirstOrDefaultAsync(v => v.NumeroFactura == "FAC-001");
         Assert.NotNull(savedVenta);
@@ -38,7 +35,6 @@ public class VentasTests
     [Fact]
     public async Task Guardar_CuandoVentaExiste_ActualizaCorrectamente()
     {
-        // Arrange
         var dbName = TestDbContextFactory.NewDatabaseName();
         await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
         {
@@ -55,7 +51,6 @@ public class VentasTests
             await seedContext.SaveChangesAsync();
         }
 
-        // Act
         await using var context = TestDbContextFactory.CreateContext(dbName);
         var service = new VentasServices(context);
         var ventaActualizada = new TblVentas
@@ -69,7 +64,6 @@ public class VentasTests
         };
         var result = await service.Guardar(ventaActualizada);
 
-        // Assert
         Assert.True(result);
         var savedVenta = await context.TblVentas.FindAsync(1);
         Assert.Equal(236, savedVenta!.Total);
@@ -79,7 +73,6 @@ public class VentasTests
     [Fact]
     public async Task Buscar_CuandoExisteVenta_RetornaEntidad()
     {
-        // Arrange
         var dbName = TestDbContextFactory.NewDatabaseName();
         await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
         {
@@ -92,12 +85,10 @@ public class VentasTests
             await seedContext.SaveChangesAsync();
         }
 
-        // Act
         await using var context = TestDbContextFactory.CreateContext(dbName);
         var service = new VentasServices(context);
         var result = await service.Buscar(1);
 
-        // Assert
         Assert.NotNull(result);
         Assert.Equal(1, result!.Id);
         Assert.Equal("FAC-001", result.NumeroFactura);
@@ -106,21 +97,17 @@ public class VentasTests
     [Fact]
     public async Task Buscar_CuandoNoExisteVenta_RetornaNull()
     {
-        // Arrange
         await using var context = TestDbContextFactory.CreateContext(TestDbContextFactory.NewDatabaseName());
         var service = new VentasServices(context);
 
-        // Act
         var result = await service.Buscar(999);
 
-        // Assert
         Assert.Null(result);
     }
 
     [Fact]
     public async Task Eliminar_CuandoExisteVenta_EliminaCorrectamente()
     {
-        // Arrange
         var dbName = TestDbContextFactory.NewDatabaseName();
         await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
         {
@@ -128,12 +115,10 @@ public class VentasTests
             await seedContext.SaveChangesAsync();
         }
 
-        // Act
         await using var context = TestDbContextFactory.CreateContext(dbName);
         var service = new VentasServices(context);
         var result = await service.Eliminar(1);
 
-        // Assert
         Assert.True(result);
         Assert.Empty(context.TblVentas);
     }
@@ -141,21 +126,17 @@ public class VentasTests
     [Fact]
     public async Task Eliminar_CuandoNoExisteVenta_RetornaFalse()
     {
-        // Arrange
         await using var context = TestDbContextFactory.CreateContext(TestDbContextFactory.NewDatabaseName());
         var service = new VentasServices(context);
 
-        // Act
         var result = await service.Eliminar(999);
 
-        // Assert
         Assert.False(result);
     }
 
     [Fact]
     public async Task GetList_CuandoSeFiltraPorEstado_RetornaCoincidencias()
     {
-        // Arrange
         var dbName = TestDbContextFactory.NewDatabaseName();
         await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
         {
@@ -166,12 +147,10 @@ public class VentasTests
             await seedContext.SaveChangesAsync();
         }
 
-        // Act
         await using var context = TestDbContextFactory.CreateContext(dbName);
         var service = new VentasServices(context);
         var result = await service.GetList(v => v.Estado == "Activa");
 
-        // Assert
         Assert.Equal(2, result.Count);
         Assert.Contains(result, v => v.Id == 1);
         Assert.Contains(result, v => v.Id == 3);
@@ -181,7 +160,6 @@ public class VentasTests
     [Fact]
     public async Task GetList_RetornaOrdenadoPorFechaDescendente()
     {
-        // Arrange
         var dbName = TestDbContextFactory.NewDatabaseName();
         await using (var seedContext = TestDbContextFactory.CreateContext(dbName))
         {
@@ -192,12 +170,10 @@ public class VentasTests
             await seedContext.SaveChangesAsync();
         }
 
-        // Act
         await using var context = TestDbContextFactory.CreateContext(dbName);
         var service = new VentasServices(context);
         var result = await service.GetList(v => true);
 
-        // Assert
         Assert.Equal(3, result.Count);
         Assert.Equal(2025, result[0].Fecha?.Year);
         Assert.Equal(2024, result[1].Fecha?.Year);

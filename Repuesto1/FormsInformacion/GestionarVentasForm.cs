@@ -22,7 +22,6 @@ namespace Repuesto1
             CargarVentas();
         }
 
-        // 📊 CARGAR VENTAS
         private async void CargarVentas()
         {
             var ventas = await _ventasServices.GetList(v => true);
@@ -43,7 +42,6 @@ namespace Repuesto1
             lblInfo.Text = $"Total Ventas: {totalGeneral:C2}";
         }
 
-        // ➕ BOTÓN AGREGAR (lo usas luego para CajaForm)
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             MessageBox.Show("La venta se realiza desde CajaForm");

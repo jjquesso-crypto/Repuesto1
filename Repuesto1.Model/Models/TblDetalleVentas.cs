@@ -24,12 +24,10 @@ public partial class TblDetalleVentas
     [Column(TypeName = "decimal(18,2)")]
     public decimal? SubTotal { get; set; }
 
-    // 🔥 RELACIÓN CON VENTA
     [ForeignKey("IdVenta")]
     [InverseProperty("TblDetalleVentas")]
     public virtual TblVentas? IdVentaNavigation { get; set; }
 
-    // 🔥 FALTABA ESTO: RELACIÓN CON PRODUCTO
     [ForeignKey("IdProducto")]
     public virtual TblProducto? IdProductoNavigation { get; set; }
 }

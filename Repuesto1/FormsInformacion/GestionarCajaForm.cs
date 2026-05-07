@@ -14,7 +14,6 @@ namespace Repuesto1
             InitializeComponent();
         }
 
-        // 🔹 LOAD DEL FORM
         private void GestionarCajaForm_Load(object sender, EventArgs e)
         {
             txtFactura.ReadOnly = true;
@@ -24,12 +23,7 @@ namespace Repuesto1
             txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
             GenerarNumeroFactura();
 
-            //if (Sesion.UsuarioActual != null)
-            //{
-            //    txtUsuario.Text = Sesion.UsuarioActual.NombreUsuario;
-            //}
-
-            // Cargar productos en el ComboBox
+          
             using (var db = new RepuestoContext())
             {
                 comboBox1.DataSource = db.TblProductos
@@ -41,7 +35,6 @@ namespace Repuesto1
                 comboBox1.SelectedIndex = -1;
             }
 
-            // Configurar columnas del DataGrid
             dataGridView1.Columns.Clear();
             dataGridView1.Columns.Add("IdProducto", "IdProducto");
             dataGridView1.Columns.Add("Producto", "Producto");
@@ -69,7 +62,6 @@ namespace Repuesto1
                 txtFactura.Text = "FAC-" + nuevoNumero.ToString("0000");
             }
         }
-        // 🔹 BOTÓN AGREGAR AL DETALLE
         private void btnDetalle_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedIndex == -1 || txtCantidad.Text.Trim() == "")
@@ -110,7 +102,6 @@ namespace Repuesto1
             }
         }
 
-        // 🔹 BOTÓN QUITAR PRODUCTO
         private void btnQuitar_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow != null)
@@ -120,7 +111,6 @@ namespace Repuesto1
             }
         }
 
-        // 🔹 BOTÓN COBRAR
         private void btnCobrar_Click(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count == 0)
@@ -135,7 +125,6 @@ namespace Repuesto1
                 {
                     try
                     {
-                        // 1. VENTA
                         TblVentas venta = new TblVentas()
                         {
                             NumeroFactura = txtFactura.Text,
@@ -149,7 +138,6 @@ namespace Repuesto1
                         db.TblVentas.Add(venta);
                         db.SaveChanges();
 
-                        // 2. DETALLES DE VENTA
                         foreach (DataGridViewRow row in dataGridView1.Rows)
                         {
                             TblDetalleVentas detalle = new TblDetalleVentas()
@@ -166,7 +154,6 @@ namespace Repuesto1
 
                         db.SaveChanges();
 
-                        // 3. INGRESO
                         TblIngreso ingreso = new TblIngreso()
                         {
                             Fecha = DateTime.Now,
@@ -192,13 +179,11 @@ namespace Repuesto1
                 }
             }
 
-            // limpiar
             dataGridView1.Rows.Clear();
             CalcularTotales();
             GenerarNumeroFactura();
         }
 
-        // 🔹 MÉTODO PARA CALCULAR TOTALES (LO USARÁS DESPUÉS)
         private void CalcularTotales()
         {
             decimal subtotal = 0;

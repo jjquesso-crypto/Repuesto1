@@ -51,7 +51,6 @@ public class UsuarioServices : IService<TblUsuario, int>
             .ToListAsync();
     }
 
-    // 🔐 VALIDAR LOGIN
     public async Task<TblUsuario?> ValidarLogin(string usuario, string clave)
     {
         return await _context.TblUsuarios
@@ -61,7 +60,6 @@ public class UsuarioServices : IService<TblUsuario, int>
                 u.Activo == true);
     }
 
-    // 👥 OBTENER ROLES
     public async Task<List<string>> ObtenerRoles()
     {
         return await _context.TblUsuarios

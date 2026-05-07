@@ -15,11 +15,10 @@ public class ProductoServices : IService<TblProducto, int>
         _context = context;
     }
 
-    // 💾 GUARDAR / ACTUALIZAR
     public async Task<bool> Guardar(TblProducto entidad)
     {
         var existe = entidad.Id != 0
-            && await _context.TblProductos.AsNoTracking().AnyAsync(p => p.Id == entidad.Id); // ← TblProductos
+            && await _context.TblProductos.AsNoTracking().AnyAsync(p => p.Id == entidad.Id); 
         if (!existe)
             await _context.TblProductos.AddAsync(entidad);
         else
@@ -27,13 +26,11 @@ public class ProductoServices : IService<TblProducto, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 🔍 BUSCAR
     public async Task<TblProducto?> Buscar(int id)
     {
         return await _context.TblProductos.FindAsync(id);
     }
 
-    // ❌ ELIMINAR (soft delete)
     public async Task<bool> Eliminar(int id)
     {
         var producto = await _context.TblProductos.FindAsync(id);
@@ -48,7 +45,6 @@ public class ProductoServices : IService<TblProducto, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 📋 LISTAR CON FILTRO
     public async Task<List<TblProducto>> GetList(Expression<Func<TblProducto, bool>> criterio)
     {
         return await _context.TblProductos

@@ -18,7 +18,6 @@ namespace Repuesto1
             CargarIngresos();
         }
 
-        // 📊 CARGAR INGRESOS
         private async void CargarIngresos()
         {
             var ingresos = await _ingresoServices.GetList(i => true);

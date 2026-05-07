@@ -21,7 +21,6 @@ namespace Repuesto1
             CargarCompras();
         }
 
-        // 📊 CARGAR COMPRAS
         private async void CargarCompras()
         {
             var compras = await _compraServices.GetList(c => true);
@@ -43,7 +42,6 @@ namespace Repuesto1
             lblInfo.Text = $"Total: {compras.Sum(c => c.Total):C2}";
         }
 
-        // ➕ AGREGAR COMPRA (VENTANA DINÁMICA)
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             var frm = new Form();
@@ -99,7 +97,6 @@ namespace Repuesto1
                 btnGuardar
             });
 
-            // 📦 CARGAR COMBOS
             using (var db = new RepuestoContext())
             {
                 cbProveedor.DataSource = db.TblProveedores.Where(p => p.Inactivo == false).ToList();
@@ -111,7 +108,6 @@ namespace Repuesto1
                 cbProducto.ValueMember = "Id";
             }
 
-            // 🔄 ACTUALIZAR TOTAL
             void ActualizarTotal()
             {
                 decimal total = detalles.Sum(d => d.SubTotal);
@@ -120,7 +116,6 @@ namespace Repuesto1
                 dgvDetalles.DataSource = detalles.ToList();
             }
 
-            // ➕ AGREGAR DETALLE
             btnAgregarProd.Click += (s, ev) =>
             {
                 if (cbProducto.SelectedValue == null) return;
@@ -145,7 +140,6 @@ namespace Repuesto1
                 txtPrecio.Clear();
             };
 
-            // 💾 GUARDAR COMPRA CON SERVICE
             btnGuardar.Click += async (s, ev) =>
             {
                 if (cbProveedor.SelectedValue == null || detalles.Count == 0)
@@ -202,7 +196,6 @@ namespace Repuesto1
         }
     }
 
-    // 📌 MODELO TEMPORAL
     public class DetalleCompraTemp
     {
         public int IdProducto { get; set; }

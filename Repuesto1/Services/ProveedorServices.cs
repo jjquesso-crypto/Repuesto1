@@ -15,7 +15,6 @@ public class ProveedorServices : IService<TblProveedore, int>
         _context = context;
     }
 
-    // 💾 GUARDAR / ACTUALIZAR
     public async Task<bool> Guardar(TblProveedore entidad)
     {
         if (entidad.Id == 0)
@@ -33,13 +32,11 @@ public class ProveedorServices : IService<TblProveedore, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 🔍 BUSCAR
     public async Task<TblProveedore?> Buscar(int id)
     {
         return await _context.TblProveedores.FindAsync(id);
     }
 
-    // ❌ ELIMINAR (soft delete)
     public async Task<bool> Eliminar(int id)
     {
         var proveedor = await _context.TblProveedores.FindAsync(id);
@@ -54,7 +51,6 @@ public class ProveedorServices : IService<TblProveedore, int>
         return await _context.SaveChangesAsync() > 0;
     }
 
-    // 📋 LISTAR CON FILTRO
     public async Task<List<TblProveedore>> GetList(Expression<Func<TblProveedore, bool>> criterio)
     {
         return await _context.TblProveedores

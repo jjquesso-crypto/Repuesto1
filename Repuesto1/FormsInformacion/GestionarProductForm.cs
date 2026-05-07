@@ -18,7 +18,6 @@ namespace Repuesto1
             CargarProductos();
         }
 
-        // 📦 CARGAR PRODUCTOS
         private async void CargarProductos()
         {
             var productos = await _productoServices.GetList(p => p.Inactivo == false);

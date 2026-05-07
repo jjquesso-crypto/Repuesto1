@@ -36,7 +36,6 @@ namespace Repuesto1.FormsInformacion
 
         }
 
-        // BOTON ENTRAR
         private async void button2_Click(object sender, EventArgs e)
         {
             string usuario = textBox3.Text.Trim();
@@ -65,7 +64,6 @@ namespace Repuesto1.FormsInformacion
             }
         }
 
-        // LINK REGISTRARSE
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Hide();
