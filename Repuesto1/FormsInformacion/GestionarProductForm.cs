@@ -15,7 +15,7 @@ namespace Repuesto1
         {
             InitializeComponent();
             _productoServices = Program.ServiceProvider.GetRequiredService<ProductoServices>();
-            CargarProductos();
+            this.Activated += (s, e) => CargarProductos(); // ← recarga cada vez que se enfoca
         }
 
         private async void CargarProductos()

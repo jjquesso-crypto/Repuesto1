@@ -22,7 +22,17 @@ namespace Repuesto1
         {
             var proveedores = await _proveedorServices.GetList(p => p.Inactivo == false);
 
-            dgvProveedores.DataSource = proveedores;
+            dgvProveedores.DataSource = proveedores
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Nombre,
+                    p.Ruc,
+                    p.Telefono,
+                    p.Direccion,
+                    p.Email
+                })
+                .ToList();
 
             lblInfo.Text = $"Total: {proveedores.Count} proveedores";
         }

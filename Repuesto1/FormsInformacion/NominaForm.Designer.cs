@@ -19,48 +19,46 @@
 
         private void InitializeComponent()
         {
-            this.dgvNomina = new System.Windows.Forms.DataGridView();
-            this.lblInfo = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNomina)).BeginInit();
-            this.SuspendLayout();
-
+            dgvNomina = new DataGridView();
+            lblInfo = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvNomina).BeginInit();
+            SuspendLayout();
             // 
             // dgvNomina
             // 
-            this.dgvNomina.AllowUserToAddRows = false;
-            this.dgvNomina.AllowUserToDeleteRows = false;
-            this.dgvNomina.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvNomina.Location = new System.Drawing.Point(12, 50);
-            this.dgvNomina.Name = "dgvNomina";
-            this.dgvNomina.ReadOnly = true;
-            this.dgvNomina.Size = new System.Drawing.Size(760, 350);
-            this.dgvNomina.TabIndex = 0;
-
+            dgvNomina.AllowUserToAddRows = false;
+            dgvNomina.AllowUserToDeleteRows = false;
+            dgvNomina.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvNomina.Location = new Point(12, 50);
+            dgvNomina.Name = "dgvNomina";
+            dgvNomina.ReadOnly = true;
+            dgvNomina.Size = new Size(760, 350);
+            dgvNomina.TabIndex = 0;
             // 
             // lblInfo
             // 
-            this.lblInfo.AutoSize = true;
-            this.lblInfo.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.lblInfo.Location = new System.Drawing.Point(12, 15);
-            this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(120, 16);
-            this.lblInfo.TabIndex = 1;
-            this.lblInfo.Text = "Total Usuarios: 0";
-
+            lblInfo.AutoSize = true;
+            lblInfo.Font = new Font("Arial", 10F, FontStyle.Bold);
+            lblInfo.Location = new Point(12, 15);
+            lblInfo.Name = "lblInfo";
+            lblInfo.Size = new Size(122, 16);
+            lblInfo.TabIndex = 1;
+            lblInfo.Text = "Total Usuarios: 0";
             // 
             // NominaForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 411);
-            this.Controls.Add(this.lblInfo);
-            this.Controls.Add(this.dgvNomina);
-            this.Name = "NominaForm";
-            this.Text = "Nómina - Usuarios";
-            this.Load += new System.EventHandler(this.NominaForm_Load);
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNomina)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(784, 411);
+            Controls.Add(lblInfo);
+            Controls.Add(dgvNomina);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Name = "NominaForm";
+            Text = "Nómina - Usuarios";
+            Load += NominaForm_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvNomina).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

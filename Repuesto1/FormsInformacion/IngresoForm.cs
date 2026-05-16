@@ -50,6 +50,9 @@ namespace Repuesto1.FormsInformacion
             var existe = await _usuarioServices.ValidarLogin(usuario, clave);
             if (existe != null)
             {
+                SesionActual.NombreUsuario = existe.NombreUsuario; // ← aquí
+                SesionActual.Rol = existe.Rol ?? "";
+
                 this.Hide();
 
                 string rol = existe.Rol?.ToLower() ?? "";

@@ -207,6 +207,7 @@
             Controls.Add(progressBar1);
             Controls.Add(pictureBox1);
             Controls.Add(menuStrip1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "MENU PRINCIPAL | COMPAÑÍA ACTIVA : SISFACON EXPRESS | EN PC #:1 | USUARIO: MARIA | CONEXIÓN: REMOTA, IP:SERVIDOR";

@@ -177,6 +177,7 @@
             Controls.Add(textBox1);
             Controls.Add(label5);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "RegristroUsuarioForm";
             Text = "RegristroUsuarioForm";
             Load += RegristroUsuarioForm_Load;

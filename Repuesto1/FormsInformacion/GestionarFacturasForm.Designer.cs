@@ -9,8 +9,7 @@
         private void InitializeComponent()
         {
             dgvFacturas = new DataGridView();
-            btnAgregar = new Button();
-            lblInfo = new Label();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvFacturas).BeginInit();
             SuspendLayout();
             // 
@@ -21,26 +20,22 @@
             dgvFacturas.Size = new Size(783, 394);
             dgvFacturas.TabIndex = 0;
             // 
-            // btnAgregar
+            // button1
             // 
-            btnAgregar.Location = new Point(0, 26);
-            btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(75, 23);
-            btnAgregar.TabIndex = 1;
-            // 
-            // lblInfo
-            // 
-            lblInfo.Location = new Point(0, 0);
-            lblInfo.Name = "lblInfo";
-            lblInfo.Size = new Size(100, 23);
-            lblInfo.TabIndex = 2;
+            button1.Location = new Point(12, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 1;
+            button1.Text = "Imprimir";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // GestionarFacturasForm
             // 
             ClientSize = new Size(784, 481);
+            Controls.Add(button1);
             Controls.Add(dgvFacturas);
-            Controls.Add(btnAgregar);
-            Controls.Add(lblInfo);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "GestionarFacturasForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Facturas";
@@ -48,5 +43,7 @@
             ResumeLayout(false);
 
         }
+
+        private Button button1;
     }
 }

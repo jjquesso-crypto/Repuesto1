@@ -44,6 +44,7 @@
             Controls.Add(dgvCompras);
             Controls.Add(btnAgregar);
             Controls.Add(lblInfo);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "GestionarComprasForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Compras";

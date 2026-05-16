@@ -40,6 +40,7 @@
             ClientSize = new Size(634, 391);
             Controls.Add(dgvProductos);
             Controls.Add(lblInfo);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "GestionarProductForm";
             Text = "Gestión de Productos";
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();

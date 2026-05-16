@@ -21,13 +21,14 @@ namespace Repuesto1
             txtUsuario.ReadOnly = true;
 
             txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            txtUsuario.Text = SesionActual.NombreUsuario; 
             GenerarNumeroFactura();
 
           
             using (var db = new RepuestoContext())
             {
                 comboBox1.DataSource = db.TblProductos
-                    .Where(p => p.Inactivo == false)
+                    .Where(p => p.Inactivo == false && p.Cantidad > 0)
                     .ToList();
 
                 comboBox1.DisplayMember = "Nombre";
@@ -84,9 +85,17 @@ namespace Repuesto1
                     return;
                 }
 
-                if (cantidad > producto.Cantidad)
+                // Cantidad ya agregada en la tabla para ese producto
+                int yaAgregado = 0;
+                foreach (DataGridViewRow r in dataGridView1.Rows)
                 {
-                    MessageBox.Show("No hay suficiente existencia");
+                    if (Convert.ToInt32(r.Cells["IdProducto"].Value) == idProducto)
+                        yaAgregado += Convert.ToInt32(r.Cells["Cantidad"].Value);
+                }
+
+                if (cantidad + yaAgregado > producto.Cantidad)
+                {
+                    MessageBox.Show($"No hay suficiente existencia. Disponible: {producto.Cantidad - yaAgregado}");
                     return;
                 }
 
@@ -150,6 +159,9 @@ namespace Repuesto1
                             };
 
                             db.TblDetalleVentas.Add(detalle);
+                            var prod = db.TblProductos.Find(Convert.ToInt32(row.Cells["IdProducto"].Value));
+                            if (prod != null)
+                            prod.Cantidad -= Convert.ToInt32(row.Cells["Cantidad"].Value);
                         }
 
                         db.SaveChanges();
@@ -182,6 +194,16 @@ namespace Repuesto1
             dataGridView1.Rows.Clear();
             CalcularTotales();
             GenerarNumeroFactura();
+
+            using (var db = new RepuestoContext())
+            {
+                comboBox1.DataSource = db.TblProductos
+                    .Where(p => p.Inactivo == false)
+                    .ToList();
+                comboBox1.DisplayMember = "Nombre";
+                comboBox1.ValueMember = "Id";
+                comboBox1.SelectedIndex = -1;
+            }
         }
 
         private void CalcularTotales()

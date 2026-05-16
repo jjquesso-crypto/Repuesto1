@@ -56,6 +56,7 @@
             Controls.Add(btnAgregar);
             Controls.Add(btnInactivar);
             Controls.Add(lblInfo);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "GestionarProveedorForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Proveedores";

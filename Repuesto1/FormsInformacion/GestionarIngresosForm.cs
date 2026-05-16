@@ -36,5 +36,10 @@ namespace Repuesto1
 
             lblInfo.Text = $"Total Ingresos: {ingresos.Sum(i => i.Monto):C2}";
         }
+
+        private void lblInfo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
