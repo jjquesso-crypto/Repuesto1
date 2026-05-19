@@ -51,7 +51,6 @@ namespace Repuesto1
             frm.StartPosition = FormStartPosition.CenterParent;
             frm.BackColor = System.Drawing.Color.FromArgb(245, 245, 245);
 
-            // ── Panel superior (proveedor + producto) ──
             var panelTop = new Panel()
             {
                 Dock = DockStyle.Top,
@@ -94,7 +93,6 @@ namespace Repuesto1
         btnAgregarProd
             });
 
-            // ── Panel inferior (total + botón guardar) ──
             var panelBottom = new Panel()
             {
                 Dock = DockStyle.Bottom,
@@ -127,13 +125,11 @@ namespace Repuesto1
             btnGuardar.Location = new System.Drawing.Point(panelBottom.Width - 170, 11);
             panelBottom.Controls.AddRange(new Control[] { lblTotal, btnGuardar });
 
-            // Reposicionar botón guardar al redimensionar
             panelBottom.Resize += (s, ev) =>
             {
                 btnGuardar.Location = new System.Drawing.Point(panelBottom.Width - 170, 11);
             };
 
-            // ── DataGridView (centro, se estira) ──
             var dgvDetalles = new DataGridView()
             {
                 Dock = DockStyle.Fill,
@@ -151,11 +147,10 @@ namespace Repuesto1
             dgvDetalles.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 9, System.Drawing.FontStyle.Bold);
             dgvDetalles.EnableHeadersVisualStyles = false;
 
-            frm.Controls.Add(dgvDetalles);   // Fill va primero
+            frm.Controls.Add(dgvDetalles);   
             frm.Controls.Add(panelBottom);
             frm.Controls.Add(panelTop);
 
-            // ── Cargar datos ──
             List<TblProducto> productos;
             using (var db = new RepuestoContext())
             {
@@ -169,7 +164,6 @@ namespace Repuesto1
                 cbProducto.ValueMember = "Id";
             }
 
-            // ── Precio automático al seleccionar producto ──
             cbProducto.SelectedIndexChanged += (s, ev) =>
             {
                 if (cbProducto.SelectedValue == null) return;
@@ -185,7 +179,6 @@ namespace Repuesto1
                 if (prod != null) txtPrecio.Text = prod.Precio.ToString();
             }
 
-            // ── Actualizar tabla y total ──
             void ActualizarTotal()
             {
                 decimal total = detalles.Sum(d => d.SubTotal);

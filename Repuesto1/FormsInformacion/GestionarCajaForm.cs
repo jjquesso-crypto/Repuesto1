@@ -21,10 +21,10 @@ namespace Repuesto1
             txtUsuario.ReadOnly = true;
 
             txtFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            txtUsuario.Text = SesionActual.NombreUsuario; 
+            txtUsuario.Text = SesionActual.NombreUsuario;
             GenerarNumeroFactura();
 
-          
+
             using (var db = new RepuestoContext())
             {
                 comboBox1.DataSource = db.TblProductos
@@ -161,7 +161,7 @@ namespace Repuesto1
                             db.TblDetalleVentas.Add(detalle);
                             var prod = db.TblProductos.Find(Convert.ToInt32(row.Cells["IdProducto"].Value));
                             if (prod != null)
-                            prod.Cantidad -= Convert.ToInt32(row.Cells["Cantidad"].Value);
+                                prod.Cantidad -= Convert.ToInt32(row.Cells["Cantidad"].Value);
                         }
 
                         db.SaveChanges();
@@ -237,6 +237,11 @@ namespace Repuesto1
             {
                 e.Handled = true;
             }
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            // Sin implementación por el momento
         }
     }
 }

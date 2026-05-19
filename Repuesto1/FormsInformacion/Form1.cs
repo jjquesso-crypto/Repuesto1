@@ -11,6 +11,12 @@ namespace Repuesto1
         public Form1()
         {
             InitializeComponent();
+
+            this.WindowState = FormWindowState.Maximized;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+
+            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.Font = new Font("Segoe UI", 10F);
         }
 
         #region EventosSinUso
@@ -83,7 +89,7 @@ namespace Repuesto1
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            // Sin implementación por el momento
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -120,7 +126,12 @@ namespace Repuesto1
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
+            // Sin implementación por el momento
+        }
 
+        private void Form1_Load_2(object sender, EventArgs e)
+        {
+            // Sin implementación por el momento
         }
     }
 }

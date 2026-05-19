@@ -22,10 +22,17 @@ namespace Repuesto1
         {
             var productos = await _productoServices.GetList(p => p.Inactivo == false);
 
-            dgvProductos.DataSource = productos;
+            dgvProductos.DataSource = productos
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Nombre,
+                    p.Precio,
+                    p.Cantidad
+                })
+                .ToList();
 
-            lblInfo.Text =
-                $"Total: {productos.Count} productos | Stock: {productos.Sum(p => p.Cantidad)} unidades";
+            lblInfo.Text = $"Total: {productos.Count} productos | Stock: {productos.Sum(p => p.Cantidad)} unidades";
         }
     }
 }
